@@ -93,6 +93,7 @@ while True:
             session.load()
             for i in range(15, 31):
                 ProgBar.progress_bar.update(current_count=i + 1)
+                ProgBar.prog_win.close()
 
             results = session.results
             event_name = session.event['EventName']
