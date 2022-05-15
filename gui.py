@@ -19,15 +19,13 @@ if not SaveExist:
 
 fastf1.Cache.enable_cache(cache_path)
 
-
 sg.theme('DarkRed')
 main_layout = [
-                [sg.Text('Grand Prix Year:'), sg.Push(), sg.InputText(size=15, justification='right')],
-                [sg.Button('Load', expand_x=True, bind_return_key=True)]
-              ]
+    [sg.Text('Grand Prix Year:'), sg.Push(), sg.InputText(size=15, justification='right')],
+    [sg.Button('Load', expand_x=True, bind_return_key=True)]
+]
 
 window = sg.Window('F1 Data Analysis', main_layout, size=(200, 75), keep_on_top=True)
-
 
 while True:
     event, values = window.read()
@@ -36,6 +34,7 @@ while True:
     if event == 'Load' or 'Return':
         class InputVars:
             year = int(values[0])
+
 
         class SeasonSchedule:
             season = fastf1.get_event_schedule(InputVars.year)
@@ -53,7 +52,8 @@ while True:
                     grand_prix = gp_values[0]
 
                     ses_list = ['FP1', 'FP2', 'FP3', 'S', 'Q', 'R']
-                    ses_win_layout = [[sg.OptionMenu(ses_list, default_value=ses_list[0], size=15), sg.Button('Load', expand_x=True, bind_return_key=True)]]
+                    ses_win_layout = [[sg.OptionMenu(ses_list, default_value=ses_list[0], size=15),
+                                       sg.Button('Load', expand_x=True, bind_return_key=True)]]
                     ses_window = sg.Window('Session Selection', ses_win_layout, keep_on_top=True)
 
                     window.close()
@@ -86,6 +86,7 @@ while True:
             results = session.results
             event_name = session.event['EventName']
 
+
         class PickDriver:
             session = SessionInfo.results
             driver_list = list(session['Abbreviation'])
@@ -102,6 +103,7 @@ while True:
                     driver = (driver_values[0])
                     driver_window.close()
 
+
         class DriverInfo:
             info = SessionInfo.session.get_driver(PickDriver.driver)
             ses = SessionInfo.session.laps.pick_driver(PickDriver.driver)
@@ -111,7 +113,7 @@ while True:
 
             lap_or_ses_list = ['Lap', 'Full Session', 'Fastest']
             lap_or_ses_win_layout = [[sg.OptionMenu(lap_or_ses_list, default_value=lap_or_ses_list[0], size=15),
-                               sg.Button('Load', expand_x=True, bind_return_key=True)]]
+                                      sg.Button('Load', expand_x=True, bind_return_key=True)]]
 
             lap_or_ses_window = sg.Window('Session Selection', lap_or_ses_win_layout, keep_on_top=True)
             while True:
@@ -138,10 +140,10 @@ while True:
 
         var_list = list(DriverInfo.data)
         var_win_layout = [
-                        [sg.Text('Y Variable:'), sg.OptionMenu(var_list, default_value=var_list[0])],
-                        [sg.Text('X Variable:'), sg.OptionMenu(var_list, default_value=var_list[12])],
-                        [sg.Button('Plot')]
-                         ]
+            [sg.Text('Y Variable:'), sg.OptionMenu(var_list, default_value=var_list[0])],
+            [sg.Text('X Variable:'), sg.OptionMenu(var_list, default_value=var_list[12])],
+            [sg.Button('Plot')]
+        ]
         var_window = sg.Window('Variable Selection', var_win_layout, keep_on_top=True)
         while True:
             var_event, var_values = var_window.read()
@@ -166,10 +168,10 @@ while True:
                 plt.suptitle(f"{DriverInfo.fullname} - {SessionInfo.event_name}\n{y.name} Analysis")
 
                 plt.savefig(f"{save_path}/{DriverInfo.fullname} {SessionInfo.event_name} {y.name} Plot.png",
-                                dpi=300, transparent=True)
+                            dpi=300, transparent=True)
 
                 var_window.close()
                 plt.show()
 
-
-window.close(); del window
+window.close()
+del window
