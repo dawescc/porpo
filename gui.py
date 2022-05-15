@@ -175,3 +175,9 @@ while True:
 
 window.close()
 del window
+
+"""
+    This is a test commit.
+
+    Ferrari for Constructor's 2022
+"""
