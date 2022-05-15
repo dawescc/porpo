@@ -1,23 +1,34 @@
+"""
+   This application is still in development.
+
+"""
+# Imports
 import PySimpleGUI as sg
 import fastf1
 from fastf1 import plotting
 import matplotlib.pylab as plt
 import os
 
-# Make Directory & Enable Fast F1 Cache
-
+# Declare Cache and Export Path
 cache_path = '~/Documents/F1 Data Analysis/Cache/'
 save_path = '~/Documents/F1 Data Analysis/Export/'
 
+# Check if Cache directory Exists & Create if not
 CacheExist = os.path.exists(cache_path)
 if not CacheExist:
     os.makedirs(cache_path)
 
+# Check if Cache directory Exists & Create if not
 SaveExist = os.path.exists(save_path)
 if not SaveExist:
     os.makedirs(save_path)
 
+# Enable Cache with Cache Path
 fastf1.Cache.enable_cache(cache_path)
+
+####
+# Begin Program
+####
 
 sg.theme('DarkRed')
 main_layout = [
@@ -175,9 +186,3 @@ while True:
 
 window.close()
 del window
-
-"""
-    This is a test commit.
-
-    Ferrari for Constructor's 2022
-"""
