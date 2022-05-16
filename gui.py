@@ -52,7 +52,7 @@ while True:
             gp_list = list(season['EventName'])
             gp_win_layout = [
                 [sg.Text('Select Grand Prix:'), sg.OptionMenu(gp_list, default_value=gp_list[2])],
-                [sg.Button('Load', bind_return_key=True)]
+                [sg.Button('Load', bind_return_key=True, expand_x=True)]
             ]
             gp_window = sg.Window('Grand Prix Selection', gp_win_layout, keep_on_top=True)
             while True:
@@ -104,7 +104,7 @@ while True:
             driver_list = list(session['Abbreviation'])
             driver_win_layout = [
                 [sg.Text('Select Driver:'), sg.OptionMenu(driver_list, default_value=driver_list[0], size=15)],
-                [sg.Button('Load', bind_return_key=True)]
+                [sg.Button('Load', bind_return_key=True, expand_x=True)]
             ]
             driver_window = sg.Window('Grand Prix Selection', driver_win_layout, keep_on_top=True)
             while True:
@@ -134,28 +134,41 @@ while True:
                     break
                 if lap_or_ses_event == 'Load' or 'Return':
                     lap_or_ses = f'{lap_or_ses_values[0]}'
-                    lap_or_ses_window.close()
                     if lap_or_ses == 'Lap':
-                        num = int(sg.popup_get_text('Input Lap Number (10, 20, 30, etc.):'))
-                        lap_n = ses[ses['LapNumber'] == num]
+                        lap_slider_layout = [[sg.Slider((ses['LapNumber'].min(), ses['LapNumber'].max()), orientation='h')], 
+                                            [sg.Button('Load', bind_return_key=True, expand_x=True)]
+                                            ]
+                        lap_slider_win = sg.Window('Select Lap', lap_slider_layout, keep_on_top=True)
+                        lap_slider_event, num = lap_slider_win.read()
+                        if lap_slider_event == sg.WIN_CLOSED:
+                            break
+                        if lap_slider_event == 'Load' or 'Return':
+                            pass
+                        lap_n = ses[ses['LapNumber'] == num[0]]
                         lap_n_tel = lap_n.get_telemetry()
                         data = lap_n_tel
+                        title = f'{fullname} {SessionInfo.event_name} Lap {num[0]} Data:'
+                        lap_slider_win.close()
 
                     elif lap_or_ses == 'Fastest':
                         f_lap = ses.pick_fastest()
                         fastest_lap = f_lap.get_telemetry()
                         data = fastest_lap
+                        title = f'{fullname} {SessionInfo.event_name} Fastest Lap Data:'
 
                     else:
                         data = ses
+                        title = f'{fullname} {SessionInfo.event_name} Full {SeasonSchedule.ses_type} Session Data:'
 
+                    lap_or_ses_window.close()
 
         var_list = list(DriverInfo.data)
         var_win_layout = [
+            [sg.Text(f'{DriverInfo.title}')],
             [sg.Text('Y Variable:'), sg.OptionMenu(var_list, default_value=var_list[0])],
             [sg.Text('X Variable:'), sg.OptionMenu(var_list, default_value=var_list[12])],
-            [sg.Button('Plot')]
-        ]
+            [sg.Button('Plot')]]
+
         var_window = sg.Window('Variable Selection', var_win_layout, keep_on_top=True)
         while True:
             var_event, var_values = var_window.read()
