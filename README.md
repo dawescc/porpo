@@ -10,8 +10,6 @@ This README.md is under construction. Please check back later for updated inform
 
 # F1 Data Analysis
 
-
-
 <p align="center">
   <img src = src/common/images/icon.png />
 </p>
@@ -19,4 +17,3 @@ This README.md is under construction. Please check back later for updated inform
 ## About
 
 This is a basic application that utilizes the [FastF1](https://github.com/theOehrly/Fast-F1) package to easily pull data for specified events, drivers, and sessions.
-
