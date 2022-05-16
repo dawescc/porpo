@@ -1,4 +1,4 @@
-# F1DataAnalysis
+# F1 Data Analysis
 
 
 [logo]: src/common/images/icon.png "F1 Data Analysis"
