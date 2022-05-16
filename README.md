@@ -3,8 +3,6 @@
 
 [logo]: src/common/images/icon.png "F1 Data Analysis"
 
-<center> 
-
-![alt text][logo]
-
-</center>
+<p align="center">
+  ![alt text][logo]
+</p>
