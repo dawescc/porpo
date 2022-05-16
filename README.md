@@ -9,5 +9,5 @@
 </p>
 ## About
 
-This is a basic application that utilizes the !FastF1 package to easily pull data for specified events, drivers, and sessions.
+This is a basic application that utilizes the [FastF1](FastF1) package to easily pull data for specified events, drivers, and sessions.
 
