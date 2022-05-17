@@ -2,7 +2,6 @@
 
 &nbsp;&nbsp;This repository is a work in progress. Anything and everything is subject to change.
 </br>&nbsp;
-
 ------
 
 # F1 Data Analysis
