@@ -3,7 +3,7 @@ WORK IN PROGRESS
 ``` 
 
 <p align="center">
-  <img src = src/common/images/construct.png height=120 width=120 />
+  <img src = src/common/images/construct.png width=15% />
 </p>
 
 <p align="center">
@@ -15,7 +15,7 @@ WORK IN PROGRESS
 # F1 Data Analysis
 
 <p align="center">
-  <img src = src/common/images/icon.png/>
+  <img src = src/common/images/icon.png width=65% />
 </p>
 
 <p align="center">
