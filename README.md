@@ -68,8 +68,7 @@ There are 2 methods of execution:
 Porpo allows you to individually set all the variables for evaluation. 
 
 You start by selecting the year the Grand Prix took place.
-
-<img align="center" src="/src/examples/images/screenshots/year_window.png">
+<img align="center" width='75%' src="/src/examples/images/screenshots/year_window.png">
 
 From there, an abundance of data is available. Check the [FastF1 documentation](https://theoehrly.github.io/Fast-F1/) to see everything that is available for each option.
 
