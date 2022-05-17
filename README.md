@@ -48,6 +48,7 @@ This is an application that utilizes the [FastF1](https://github.com/theOehrly/F
 *Note*: [Python3](https://www.python.org/downloads/) (v.3.8 or greater) is required.
 
 ## Getting Started
+Currently, there is not a *simple* way to run the program. However, getting it up and running is very easy, regardless of platform. 
 
 Install Dependencies:
 
@@ -56,7 +57,7 @@ pip3 install fastf1
 pip3 install PySimpleGUI
 ```
 
-Currently, there are 2 methods of execution:
+There are 2 methods of execution:
 
 `gui.py` to begin using the application with a gui.
 
