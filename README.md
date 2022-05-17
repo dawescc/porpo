@@ -1,17 +1,19 @@
-# Under Construction
+```
+WORK IN PROGRESS
+``` 
 
 <p align="center">
-  <img src = src/common/images/construct.png />
+  <img src = src/common/images/construct.png height=120 width=120 />
 </p>
 
-This README.md is under construction. Please check back later for updated information.
+<center>This repository is a work in progress. Anything and everything is subject to change.</center>
 
 ------
 
 # F1 Data Analysis
 
 <p align="center">
-  <img src = src/common/images/icon.png />
+  <img src = src/common/images/icon.png/>
 </p>
 
 <p align="center">
@@ -34,7 +36,6 @@ This README.md is under construction. Please check back later for updated inform
 ------
 
 ## Table of Contents
-- [Under Construction](#under-construction)
 - [F1 Data Analysis](#f1-data-analysis)
   - [Table of Contents](#table-of-contents)
   - [Documentation](#documentation)
