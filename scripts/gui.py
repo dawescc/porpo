@@ -204,7 +204,7 @@ while True:
                 plt.suptitle(f"{DriverInfo.fullname} - {SessionInfo.event_name}\n{y.name} Analysis")
 
                 plt.savefig(f"{save_path}/{DriverInfo.fullname} {SessionInfo.event_name} {y.name} Plot.png",
-                            dpi=300, transparent=True)
+                            dpi=300, transparent=False)
 
                 var_window.close()
                 plt.show()

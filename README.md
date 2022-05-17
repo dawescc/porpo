@@ -72,5 +72,4 @@ Currently, there are 2 methods of execution:
 This app can be used to do basic analysis for a specifc lap of an event
 
 ![Example_1](/src/examples/images/bah_speed.png)
-
-`Max Verstappen speed on Lap 54 of the 2022 Bahrain GP. We can see he was losing power throughout the lap, up til the exact moment he lost all power.`
+`Max Verstappen speed on Lap 54 of the 2022 Bahrain GP. We can see he was losing power throughout the lap, up until the moment he completely lost power, and went into the pitlane.`
