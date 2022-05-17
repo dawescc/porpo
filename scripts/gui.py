@@ -189,6 +189,8 @@ while True:
                 driver_yvar = DriverInfo.data[f'{var_values[0]}']
                 driver_xvar = DriverInfo.data[f'{var_values[1]}']
 
+                plotting.setup_mpl()
+
                 plt.rcParams["figure.autolayout"] = True
                 x = driver_xvar
                 y = driver_yvar
