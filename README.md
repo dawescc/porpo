@@ -41,16 +41,16 @@ WORK IN PROGRESS
 - [F1 Data Analysis](#f1-data-analysis)
   - [Table of Contents](#table-of-contents)
   - [Documentation](#documentation)
-  - [How to Use](#how-to-use)
+  - [Getting Started](#getting-started)
     - [Install Dependencies](#install-dependencies)
 
 
 
 ## Documentation
 
-This is an application that utilizes the [FastF1](https://github.com/theOehrly/Fast-F1) package to easily pull data for specified events, drivers, and sessions.
+This is an application that utilizes the [FastF1](https://github.com/theOehrly/Fast-F1) package to easily pull data for specified events, drivers, and sessions and generate visualizations for analysis.
 
-## How to Use
+## Getting Started
 
 To use this application, you need to have [Python3](https://www.python.org/downloads/) installed on your machine.
 
@@ -58,8 +58,7 @@ To use this application, you need to have [Python3](https://www.python.org/downl
 
 ### Install Dependencies
 
-```
-pip3 install fastf1
-pip3 install PySimpleGUI
+`pip3 install fastf1`
 
-```
+`pip3 install PySimpleGUI`
+
