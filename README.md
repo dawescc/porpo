@@ -3,7 +3,7 @@ WORK IN PROGRESS
 ``` 
 
 <p align="center">
-  <img src = src/common/images/construct.png width=15% text-align=center />
+  <img src = src/common/images/construct.png width=15% />
 </p>
   
 <p align ="center">
@@ -91,7 +91,8 @@ Alternatively, you can quickly do basic analysis of a fastest lap the selected d
 ### Session
 You can also quickly do an analysis of a driver's performance through an event's entire session.
 
-![BOT_STSpeed_Mia](/src/examples/images/bot_miami_ses_stspeed.png)
+<img src = /src/examples/images/bot_miami_ses_stspeed.png width=75% />
+
 <figcaption align = "center">
   <b>Valtteri Bottas' speed down the straight over the distance of the Miami GP.</b>
 </figcaption>
