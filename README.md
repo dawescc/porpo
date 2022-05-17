@@ -38,7 +38,6 @@
     - [Specific Lap](#specific-lap)
     - [Fastest Lap](#fastest-lap)
     - [Session](#session)
-      - [Notice](#notice)
 
 ------
 
@@ -65,6 +64,8 @@ Currently, there are 2 methods of execution:
 
 ## Usage
 
+Be aware the application allows you to select any data available as an X or Y variable. Some variable combinations may not perform as expected. 
+
 ### Specific Lap
 You can easily pull and visualize data for a lap of an event's session. Each lap, event, session, and driver can be customized.
 
@@ -88,7 +89,3 @@ You can also quickly do an analysis of a driver's performance through an event's
 <figcaption align = "center">
   <b>Max Verstappen laptime over the course of the Imola GP. We can see as the track began to dry, laptimes began to fall very quickly.</b>
 </figcaption>
-
-#### Notice
-
-The application allows you to select any data available as an X or Y variable. Be aware that some variable combinations may not perform as expected. 
