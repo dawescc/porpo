@@ -66,12 +66,8 @@ There are 2 methods of execution:
 ## Usage
 
 Porpo allows you to individually set all the variables for evaluation. 
-- Year
-  - Grand Prix
-    - Session
-- Driver
-  - Lap or Full Session data
-    - Specified Lap 'N'
+
+<img align="left" width="50" height="50" src="src/common/images/construct.png">
 
 From there, an abundance of data is available. Check the [FastF1 documentation](https://theoehrly.github.io/Fast-F1/) to see everything that is available for each option.
 
