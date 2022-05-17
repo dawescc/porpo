@@ -1,9 +1,9 @@
 """
-   This application is still in development.
+   Work in progress.
 
 """
+
 # Imports
-from turtle import right
 import PySimpleGUI as sg
 import fastf1
 from fastf1 import plotting
