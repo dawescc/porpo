@@ -46,6 +46,7 @@ WORK IN PROGRESS
     - [Specific Lap](#specific-lap)
     - [Fastest Lap](#fastest-lap)
     - [Session](#session)
+      - [Notice](#notice)
 
 ------
 
@@ -95,3 +96,7 @@ You can also quickly do an analysis of a driver's performance through an event's
 <figcaption align = "center">
   <b>Max Verstappen laptime over the course of the Imola GP. We can see as the track began to dry, laptimes began to fall very quickly.</b>
 </figcaption>
+
+#### Notice
+
+The application allows you to select any data available as an X or Y variable. Be aware that some variable combinations may not perform as expected. 
