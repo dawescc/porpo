@@ -1,31 +1,48 @@
-# Under Construction
+```
+WORK IN PROGRESS
+``` 
 
 <p align="center">
-  <img src = src_working/common/images/construct.png />
+  <img src = src/common/images/construct.png width=15% />
 </p>
 
-This README.md is under construction. Please check back later for updated information.
+<p align="center">
+  This repository is a work in progress. Anything and everything is subject to change.
+</p>
 
 ------
 
 # F1 Data Analysis
 
 <p align="center">
-
-![F1DataAnalysis](src_working/common/images/icon.png)
-
-![https://github.com/dtech-auto/F1DataAnalysis/commits/master.atom](https://img.shields.io/badge/rss-commits-ffa500?logo=rss)
-
-![GitHub](https://img.shields.io/github/license/dtech-auto/F1DataAnalysis)
-
+  <img src = src/common/images/icon.png width=45% />
 </p>
 
+<p align="center">
+  <img src = https://img.shields.io/github/license/dtech-auto/F1DataAnalysis />
+    </>
+  <img src = https://img.shields.io/github/languages/top/dtech-auto/F1DataAnalysis />
+    </>
+  <img src = https://img.shields.io/github/v/release/dtech-auto/F1DataAnalysis?display_name=tag&include_prereleases />
+    </>
+</p>
+
+<p align="center">
+  <img src = https://img.shields.io/github/commit-activity/w/dtech-auto/F1DataAnalysis />
+    </>
+  <img src = https://img.shields.io/github/last-commit/dtech-auto/F1DataAnalysis />
+    </>
+  <img src = https://img.shields.io/github/issues-raw/dtech-auto/F1DataAnalysis />
+</p>
+
+------
+
 ## Table of Contents
-- [Under Construction](#under-construction)
 - [F1 Data Analysis](#f1-data-analysis)
   - [Table of Contents](#table-of-contents)
   - [Documentation](#documentation)
   - [How to Use](#how-to-use)
+    - [Install Dependencies](#install-dependencies)
 
 
 
@@ -37,7 +54,12 @@ This is an application that utilizes the [FastF1](https://github.com/theOehrly/F
 
 To use this application, you need to have [Python3](https://www.python.org/downloads/) installed on your machine.
 
-
 *Note:* If you use MacOS, [Homebrew](https://docs.brew.sh/Installation) is strongly recommended.
 
+### Install Dependencies
 
+```
+pip3 install fastf1
+pip3 install PySimpleGUI
+
+```
