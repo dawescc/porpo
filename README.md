@@ -56,9 +56,10 @@ This is an application that utilizes the [FastF1](https://github.com/theOehrly/F
 
 Install Dependencies:
 
-`pip3 install fastf1`
-
-`pip3 install PySimpleGUI`
+```
+pip3 install fastf1
+pip3 install PySimpleGUI
+```
 
 Run the script to begin using the application.
 
