@@ -109,19 +109,18 @@ Be aware that although you can select any available data as either variable, som
   <img width="40%" height="40%" src="/src/examples/images/screenshots/var_window.png"/>
 </>
 
-The plot will show up in a new window, and automatically save to your export directory when the graph is closed. 
-&nbsp;
-&nbsp;
+The plot will show up in a new window, and automatically save to your export directory when the graph is closed.
 
 If you're unsure where your export directory is, the default is:
-&nbsp;
-
   ```
   ~/Documents/F1 Data Analysis/Export/
   ```
 &nbsp;
 
-To change this directory, edit the path at `/scripts/gui.save_path`
+To change this directory, edit the `save_path` variable in `scripts/gui.py`
+```
+  save_path = '~/Documents/F1 Data Analysis/Export/'
+```
 
 ### Specific Lap
 You can easily pull and visualize data for a lap of an event's session.
