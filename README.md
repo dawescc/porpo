@@ -59,7 +59,7 @@ pip3 install PySimpleGUI
 
 There are 2 methods of execution:
 
-`gui.py` to begin using the application with a GUI (Recommended).
+`gui.py` to begin using the application with a GUI. (Recommended)
 
 `main.py` to begin using the application in CLI.
 
