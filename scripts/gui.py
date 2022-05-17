@@ -194,6 +194,7 @@ while True:
                 y = driver_yvar
                 xmin, xmax = x.min(), x.max()
 
+                plt.style.use('dark_background')
                 fig = plt.figure(1)
                 plot1 = fig.subplots()
                 plot1.plot(x, y, color=DriverInfo.team_color, label=f"{y.name}")
@@ -204,7 +205,7 @@ while True:
                 plt.suptitle(f"{DriverInfo.fullname} - {SessionInfo.event_name}\n{y.name} Analysis")
 
                 plt.savefig(f"{save_path}/{DriverInfo.fullname} {SessionInfo.event_name} {y.name} Plot.png",
-                            dpi=300, transparent=False)
+                            dpi=300)
 
                 var_window.close()
                 plt.show()
