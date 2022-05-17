@@ -93,7 +93,7 @@ Next, selext the driver you'd like to evaluate.
   <img width="40%" height="40%" src="/src/examples/images/screenshots/driver_window.png"/>
 </>
 
-Now decide if you're goinng to evaluate the full session, or a specific lap, or easily select the fastest lap set by your chosen driver.
+Now decide if you're going to evaluate the full session, or a specific lap, or easily select the fastest lap set by your chosen driver.
 
 Check the [FastF1 documentation](https://theoehrly.github.io/Fast-F1/) to see everything that is available for each option.
 
