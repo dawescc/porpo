@@ -1,8 +1,9 @@
-<img align="left" width="50" height="50" src="src/common/images/construct.png">&nbsp;
-### &nbsp;This repository is a work in progress. Anything and everything is subject to change.
-</br>&nbsp;
+<img align="left" width="50" height="50" src="src/common/images/construct.png">
 
-------
+&nbsp;
+This repository is a work in progress. Anything and everything is subject to change.
+
+&nbsp;
 
 # Porpo
 
