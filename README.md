@@ -7,7 +7,7 @@ This repository is a work in progress. Anything and everything is subject to cha
 # Porpo
 
 <p align="center">
-  <img src = src/common/images/icon.png width=100% />
+  <img src = src/common/images/icon.png />
 </p>
 
 <p align="center">
