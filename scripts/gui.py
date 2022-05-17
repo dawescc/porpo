@@ -191,19 +191,21 @@ while True:
 
                 plotting.setup_mpl()
 
-                plt.rcParams["figure.autolayout"] = True
+                #plt.rcParams["figure.autolayout"] = True
                 x = driver_xvar
                 y = driver_yvar
                 xmin, xmax = x.min(), x.max()
 
-                plt.style.use('dark_background')
+                #plt.style.use('dark_background')
                 fig = plt.figure(1)
                 plot1 = fig.subplots()
                 plot1.plot(x, y, color=DriverInfo.team_color, label=f"{y.name}")
                 plot1.set_ylabel(f"{y.name}")
                 plot1.set_xlabel(f"{x.name}")
                 plot1.set_xlim(xmin, xmax)
-                plot1.grid(visible=True, axis='y', alpha=.5)
+                plot1.minorticks_on()
+                plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
+                plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
                 plt.suptitle(f"{DriverInfo.fullname} - {SessionInfo.event_name}\n{y.name} Analysis")
 
                 plt.savefig(f"{save_path}/{DriverInfo.fullname} {SessionInfo.event_name} {y.name} Plot.png",
