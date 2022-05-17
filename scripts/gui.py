@@ -197,7 +197,7 @@ while True:
                 xmin, xmax = x.min(), x.max()
 
                 #plt.style.use('dark_background')
-                fig = plt.figure(1)
+                fig = plt.figure(1, figsize=(16,9))
                 plot1 = fig.subplots()
                 plot1.plot(x, y, color=DriverInfo.team_color, label=f"{y.name}")
                 plot1.set_ylabel(f"{y.name}")
