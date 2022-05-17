@@ -30,7 +30,7 @@
 ------
 
 ## Table of Contents
-- [F1 Data Analysis](#f1-data-analysis)
+- [Porpo](#porpo)
   - [Table of Contents](#table-of-contents)
   - [General Information](#general-information)
   - [Getting Started](#getting-started)
@@ -43,7 +43,7 @@
 
 ## General Information
 
-This is an application that utilizes the [FastF1](https://github.com/theOehrly/Fast-F1) Python package to easily pull data for specified events, drivers, and sessions and generate visualizations for analysis.
+Porpo is a python application that utilizes the [FastF1](https://github.com/theOehrly/Fast-F1) package to easily pull specific data and generate visualizations for analysis.
 
 *Note*: [Python3](https://www.python.org/downloads/) (v.3.8 or greater) is required.
 
