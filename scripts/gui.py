@@ -28,10 +28,6 @@ if not SaveExist:
 # Enable Cache with Cache Path
 fastf1.Cache.enable_cache(cache_path)
 
-####
-# Begin Program
-####
-
 # Create Year Range for Year Picker
 cur_year = datetime.datetime.today().year
 year_list = range(2018,cur_year+1)
