@@ -75,10 +75,10 @@ Currently, there are 2 methods of execution:
 You can easily pull and visualize data for a lap of an event's session. Each lap, event, session, and driver can be customized.
 
 ![VER_Speed_Bah](/src/examples/images/ver_bah_last_speed.png)
-*Max Verstappen's speed on Lap 54 of the 2022 Bahrain GP. We can see he was losing power throughout the lap, up until the moment he completely lost power, and went into the pitlane.
+<figcaption align = "center"><b>Max Verstappen's speed on Lap 54 of the 2022 Bahrain GP. We can see he was losing power throughout the lap, up until the moment he completely lost power, and went into the pitlane.</b></figcaption>
 
 ### Fastest Lap
 Alternatively, you can quickly do basic analysis of a fastest lap the selected driver set during an event's session.
 
 ![VER_Speed_Bah](/src/examples/images/ver_bah_fastest_speed.png)
-*Max Verstappen speed on the fastest lap he set in 2022 Bahrain GP. We can the difference between this lap, and lap 54, when he retired.
+<figcaption align = "center"><b>Max Verstappen speed on the fastest lap he set in 2022 Bahrain GP. We can the difference between this lap, and lap 54, when he retired.</b></figcaption>
