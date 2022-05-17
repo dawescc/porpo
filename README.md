@@ -42,6 +42,7 @@ WORK IN PROGRESS
   - [Table of Contents](#table-of-contents)
   - [Documentation](#documentation)
   - [How to Use](#how-to-use)
+    - [Install Dependencies](#install-dependencies)
 
 
 
@@ -53,7 +54,12 @@ This is an application that utilizes the [FastF1](https://github.com/theOehrly/F
 
 To use this application, you need to have [Python3](https://www.python.org/downloads/) installed on your machine.
 
-
 *Note:* If you use MacOS, [Homebrew](https://docs.brew.sh/Installation) is strongly recommended.
 
+### Install Dependencies
 
+```
+pip3 install fastf1
+pip3 install PySimpleGUI
+
+```
