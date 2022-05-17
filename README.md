@@ -87,7 +87,7 @@ Then select the session from the Grand Prix.
   <img width="40%" height="40%" src="/src/examples/images/screenshots/sestype_window.png"/>
 </>
 
-Next, selext the driver you'd like to evaluate.
+Next, select the driver you'd like to evaluate.
 
 <p align="center">
   <img width="40%" height="40%" src="/src/examples/images/screenshots/driver_window.png"/>
@@ -131,7 +131,7 @@ You can easily pull and visualize data for a single lap of a session.
 </figcaption>
 
 ### Fastest Lap
-Alternatively, you can quickly do basic analysis of the fastest lap the selected driver set during a session.
+By default, you can quickly do analysis of the fastest lap set by the selected driver during a session.
 
 ![VER_SpeedF_Bah](/src/examples/images/ver_bah_fastest_speed.png)
 <figcaption align = "center">
