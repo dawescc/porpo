@@ -1,7 +1,8 @@
 <p align='center'>
   <img align="left" width="50" height="50" src="src/common/images/construct.png">
   This repository is a work in progress. Anything and everything is subject to change.
-</p></br>
+  </br>
+</p>
 
 ------
 
