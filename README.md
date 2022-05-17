@@ -12,11 +12,11 @@ This README.md is under construction. Please check back later for updated inform
 
 <p align="center">
 
-![F1DataAnalysis](src/common/images/icon.png)
+  ![F1DataAnalysis](src/common/images/icon.png)
 
-![https://github.com/dtech-auto/F1DataAnalysis/commits/master.atom](https://img.shields.io/badge/rss-commits-ffa500?logo=rss)
+  ![https://github.com/dtech-auto/F1DataAnalysis/commits/master.atom](https://img.shields.io/badge/rss-commits-ffa500?logo=rss)
 
-![GitHub](https://img.shields.io/github/license/dtech-auto/F1DataAnalysis)
+  ![GitHub](https://img.shields.io/github/license/dtech-auto/F1DataAnalysis)
 
 </p>
 
