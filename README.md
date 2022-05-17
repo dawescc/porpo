@@ -1,4 +1,4 @@
-<img align="left" width="25" height="25" src="src/common/images/construct.png">
+<img align="left" width="40" height="40" src="src/common/images/construct.png">
 &nbsp;&nbsp;This repository is a work in progress. Anything and everything is subject to change.
 </br>
   </br>
