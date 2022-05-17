@@ -69,7 +69,7 @@ Porpo allows you to individually set all the variables for evaluation.
 
 From there, an abundance of data is available. Check the [FastF1 documentation](https://theoehrly.github.io/Fast-F1/) to see everything that is available for each option.
 
-<img align="left" width="2.5%" height="2.5%" src="src/common/images/construct.png">
+<img align="left" width="3%" height="3%" src="src/common/images/construct.png">
 
 Be aware that although you can select any available data as an X or Y variable, some combinations may not perform as expected. 
 
