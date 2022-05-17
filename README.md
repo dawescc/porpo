@@ -59,9 +59,9 @@ pip3 install PySimpleGUI
 
 There are 2 methods of execution:
 
-`gui.py` to begin using the application with a GUI. (Recommended)
+`/scripts/gui.py` to begin using the application with a GUI. (Recommended)
 
-`main.py` to begin using the application in CLI.
+`/scripts/main.py` to begin using the application in CLI.
 
 ## Usage
 
@@ -76,7 +76,7 @@ You start by selecting the year the Grand Prix took place.
 Then select the Grand Prix you want.
 
 <p align="center">
-  <img width="40%" height="40%" src="/src/examples/images/screenshots/gp_window.png"/>
+  <img width="50%" height="50%" src="/src/examples/images/screenshots/gp_window.png"/>
 </>
 
 Then select the session from the Grand Prix.
@@ -84,15 +84,44 @@ Then select the session from the Grand Prix.
 *Note*: No GP has all sessions.
 
 <p align="center">
-  <img width="40%" height="40%" src="/src/examples/images/screenshots/session_window.png"/>
+  <img width="40%" height="40%" src="/src/examples/images/screenshots/sestype_window.png"/>
 </>
 
+Next, selext the driver you'd like to evaluate.
+
+<p align="center">
+  <img width="40%" height="40%" src="/src/examples/images/screenshots/driver_window.png"/>
+</>
+
+Now decide if you're goinng to evaluate the full session, or a specific lap, or easily select the fastest lap set by your chosen driver.
 
 Check the [FastF1 documentation](https://theoehrly.github.io/Fast-F1/) to see everything that is available for each option.
 
-<img align="left" width="3%" height="3%" src="src/common/images/construct.png">
+<p align="center">
+  <img width="40%" height="40%" src="/src/examples/images/screenshots/lap_window.png"/>
+</>
 
-Be aware that although you can select any available data as an X or Y variable, some combinations may not perform as expected. 
+The last step is to select which variables you want displayed on the axes (X and Y).
+
+Be aware that although you can select any available data as either variable, some combinations may not perform as expected - or at all.
+
+<p align="center">
+  <img width="40%" height="40%" src="/src/examples/images/screenshots/var_window.png"/>
+</>
+
+The plot will show up in a new window, and automatically save to your export directory when the graph is closed. 
+&nbsp;
+&nbsp;
+
+If you're unsure where your export directory is, the default is:
+&nbsp;
+
+  ```
+  ~/Documents/F1 Data Analysis/Export/
+  ```
+&nbsp;
+
+To change this directory, edit the path at `/scripts/gui.save_path`
 
 ### Specific Lap
 You can easily pull and visualize data for a lap of an event's session.
