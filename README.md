@@ -8,7 +8,7 @@ This README.md is under construction. Please check back later for updated inform
 
 ------
 
-# F1 Data Analysis
+<center><h1>F1 Data Analysis</h1></center>
 
 <p align="center">
   <img src = src/common/images/icon.png />
@@ -17,17 +17,24 @@ This README.md is under construction. Please check back later for updated inform
 <p align="center">
   <img src = https://img.shields.io/github/license/dtech-auto/F1DataAnalysis />
     </>
-  <img src = https://img.shields.io/github/commit-activity/w/dtech-auto/F1DataAnalysis />
+  <img src = https://img.shields.io/github/languages/top/dtech-auto/F1DataAnalysis />
     </>
-  <img src = https://img.shields.io/github/issues-raw/dtech-auto/F1DataAnalysis />
-    </>
-  <img src = https://img.shields.io/github/last-commit/dtech-auto/F1DataAnalysis />
+  <img src = https://img.shields.io/github/v/release/dtech-auto/F1DataAnalysis?display_name=tag&include_prereleases />
     </>
 </p>
 
+<p align="center">
+  <img src = https://img.shields.io/github/commit-activity/w/dtech-auto/F1DataAnalysis />
+    </>
+  <img src = https://img.shields.io/github/last-commit/dtech-auto/F1DataAnalysis />
+    </>
+  <img src = https://img.shields.io/github/issues-raw/dtech-auto/F1DataAnalysis />
+</p>
+
+------
+
 ## Table of Contents
 - [Under Construction](#under-construction)
-- [F1 Data Analysis](#f1-data-analysis)
   - [Table of Contents](#table-of-contents)
   - [Documentation](#documentation)
   - [How to Use](#how-to-use)
