@@ -15,7 +15,7 @@ WORK IN PROGRESS
 # F1 Data Analysis
 
 <p align="center">
-  <img src = src/common/images/icon.png width=65% />
+  <img src = src/common/images/icon.png width=45% />
 </p>
 
 <p align="center">
