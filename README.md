@@ -8,7 +8,7 @@ This README.md is under construction. Please check back later for updated inform
 
 ------
 
-<center><h1>F1 Data Analysis</h1></center>
+# F1 Data Analysis
 
 <p align="center">
   <img src = src/common/images/icon.png />
@@ -35,6 +35,7 @@ This README.md is under construction. Please check back later for updated inform
 
 ## Table of Contents
 - [Under Construction](#under-construction)
+- [F1 Data Analysis](#f1-data-analysis)
   - [Table of Contents](#table-of-contents)
   - [Documentation](#documentation)
   - [How to Use](#how-to-use)
