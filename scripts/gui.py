@@ -11,7 +11,7 @@ import matplotlib.pylab as plt
 import os
 import datetime
 
-# Declare Cache and Export Path
+# Declare Cache and Export Paths
 cache_path = '~/Documents/F1 Data Analysis/Cache/'
 save_path = '~/Documents/F1 Data Analysis/Export/'
 
