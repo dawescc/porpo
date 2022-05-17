@@ -79,7 +79,7 @@ Alternatively, you can quickly do basic analysis of a fastest lap the selected d
 
 ![VER_SpeedF_Bah](/src/examples/images/ver_bah_fastest_speed.png)
 <figcaption align = "center">
-  <b>Max Verstappen speed on the fastest lap he set in 2022 Bahrain GP. We can the difference between this lap, and lap 54, when he retired.</b>
+  <b>Max Verstappen speed on the fastest lap he set in 2022 Bahrain GP. We can the difference between this lap and lap 54, when he retired.</b>
 </figcaption>
 
 ### Session
