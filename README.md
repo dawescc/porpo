@@ -1,12 +1,8 @@
 ```
 WORK IN PROGRESS
 ``` 
-
 <p align="center">
-  <img src = src/common/images/construct.png width=15% />
-</p>
-  
-<p align ="center">
+  <img align="left" width="50" height="50" src="src/common/images/construct.png">
   This repository is a work in progress. Anything and everything is subject to change.
 </p>
 
