@@ -3,10 +3,10 @@ WORK IN PROGRESS
 ``` 
 
 <p align="center">
-  <img src = src/common/images/construct.png width=15% />
+  <img src = src/common/images/construct.png width=15% text-align=center />
 </p>
-
-<p align="center">
+  
+<p align ="center">
   This repository is a work in progress. Anything and everything is subject to change.
 </p>
 
@@ -68,3 +68,9 @@ Currently, there are 2 methods of execution:
 `main.py` to begin using the application in CLI.
 
 ## Usage
+
+This app can be used to do basic analysis for a specifc lap of an event
+
+![Example_1](/src/examples/images/bah_speed.png)
+
+`Max Verstappen speed on Lap 54 of the 2022 Bahrain GP. We can see he was losing power throughout the lap, up til the exact moment he lost all power.`
