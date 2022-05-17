@@ -17,7 +17,7 @@ This README.md is under construction. Please check back later for updated inform
 <p align="center">
   <img src = https://img.shields.io/github/license/dtech-auto/F1DataAnalysis />
     </>
-  <img src = https://img.shields.io/github/commit-activity/:interval/dtech-auto/F1DataAnalysis />
+  <img src = https://img.shields.io/github/commit-activity/w/dtech-auto/F1DataAnalysis />
     </>
   <img src = https://img.shields.io/github/issues-raw/dtech-auto/F1DataAnalysis />
     </>
