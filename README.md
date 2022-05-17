@@ -91,8 +91,9 @@ Alternatively, you can quickly do basic analysis of a fastest lap the selected d
 ### Session
 You can also quickly do an analysis of a driver's performance through an event's entire session.
 
+<p align="center">
 <img src = /src/examples/images/bot_miami_ses_stspeed.png width=75% />
-
 <figcaption align = "center">
   <b>Valtteri Bottas' speed down the straight over the distance of the Miami GP.</b>
 </figcaption>
+</p>
