@@ -61,6 +61,10 @@ pip3 install fastf1
 pip3 install PySimpleGUI
 ```
 
-Run the script to begin using the application.
+Currently, there are 2 methods of execution:
+
+`gui.py` to begin using the application with a gui.
+
+`main.py` to begin using the application in CLI.
 
 ## Usage
