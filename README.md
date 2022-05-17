@@ -45,6 +45,7 @@ WORK IN PROGRESS
   - [Usage](#usage)
     - [Specific Lap](#specific-lap)
     - [Fastest Lap](#fastest-lap)
+    - [Session](#session)
 
 ------
 
@@ -74,15 +75,23 @@ Currently, there are 2 methods of execution:
 ### Specific Lap
 You can easily pull and visualize data for a lap of an event's session. Each lap, event, session, and driver can be customized.
 
-![VER_Speed_Bah](/src/examples/images/ver_bah_last_speed.png)
+![VER_SpeedL_Bah](/src/examples/images/ver_bah_last_speed.png)
 <figcaption align = "center">
-  <b>Max Verstappen's speed on Lap 54 of the 2022 Bahrain GP. We can see he was losing power throughout the lap, up until the moment he completely lost power, and went into the pitlane.</b>
+  <b>Max Verstappen speed on Lap 54 of the 2022 Bahrain GP. We can see he was losing power throughout the lap, up until the moment he completely lost power, and went into the pitlane.</b>
 </figcaption>
 
 ### Fastest Lap
 Alternatively, you can quickly do basic analysis of a fastest lap the selected driver set during an event's session.
 
-![VER_Speed_Bah](/src/examples/images/ver_bah_fastest_speed.png)
+![VER_SpeedF_Bah](/src/examples/images/ver_bah_fastest_speed.png)
 <figcaption align = "center">
   <b>Max Verstappen speed on the fastest lap he set in 2022 Bahrain GP. We can the difference between this lap, and lap 54, when he retired.</b>
+</figcaption>
+
+### Session
+You can also quickly do an analysis of a driver's performance through an event's entire session.
+
+![BOT_STSpeed_Mia](/src/examples/images/bot_miami_ses_stspeed.png)
+<figcaption align = "center">
+  <b>Valtteri Bottas' speed down the straight over the distance of the Miami GP.</b>
 </figcaption>
