@@ -1,7 +1,7 @@
 # Under Construction
 
 <p align="center">
-  <img src = src_working/common/images/construct.png />
+  <img src = src/common/images/construct.png />
 </p>
 
 This README.md is under construction. Please check back later for updated information.
@@ -12,7 +12,7 @@ This README.md is under construction. Please check back later for updated inform
 
 <p align="center">
 
-![F1DataAnalysis](src_working/common/images/icon.png)
+![F1DataAnalysis](src/common/images/icon.png)
 
 ![https://github.com/dtech-auto/F1DataAnalysis/commits/master.atom](https://img.shields.io/badge/rss-commits-ffa500?logo=rss)
 
