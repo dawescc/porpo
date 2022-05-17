@@ -6,7 +6,9 @@ WORK IN PROGRESS
   <img src = src/common/images/construct.png height=120 width=120 />
 </p>
 
-<center>This repository is a work in progress. Anything and everything is subject to change.</center>
+<p align="center">
+  This repository is a work in progress. Anything and everything is subject to change.
+</p>
 
 ------
 
