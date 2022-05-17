@@ -123,7 +123,7 @@ To change this directory, edit the `save_path` variable in `scripts/gui.py`
 ```
 
 ### Specific Lap
-You can easily pull and visualize data for a lap of an event's session.
+You can easily pull and visualize data for a single lap of a session.
 
 ![VER_SpeedL_Bah](/src/examples/images/ver_bah_last_speed.png)
 <figcaption align = "center">
@@ -131,7 +131,7 @@ You can easily pull and visualize data for a lap of an event's session.
 </figcaption>
 
 ### Fastest Lap
-Alternatively, you can quickly do basic analysis of a fastest lap the selected driver set during an event's session.
+Alternatively, you can quickly do basic analysis of the fastest lap the selected driver set during a session.
 
 ![VER_SpeedF_Bah](/src/examples/images/ver_bah_fastest_speed.png)
 <figcaption align = "center">
@@ -139,7 +139,7 @@ Alternatively, you can quickly do basic analysis of a fastest lap the selected d
 </figcaption>
 
 ### Session
-You can also quickly do an analysis of a driver's performance through an event's entire session.
+You can also quickly do an analysis of a driver's performance through an entire session.
 
 ![VER_SpeedF_Bah](/src/examples/images/ver_imola_laptime.png)
 <figcaption align = "center">
