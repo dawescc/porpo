@@ -208,8 +208,7 @@ while True:
                 plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
                 plt.suptitle(f"{DriverInfo.fullname} - {SessionInfo.event_name}\n{y.name} Analysis")
 
-                plt.savefig(f"{save_path}/{DriverInfo.fullname} {SessionInfo.event_name} {y.name} Plot.png",
-                            dpi=300)
+                plt.savefig(f"{save_path}/{DriverInfo.fullname} {SessionInfo.event_name} {y.name} Plot.png", dpi=300)
 
                 var_window.close()
                 plt.show()
