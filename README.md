@@ -4,7 +4,7 @@
 
 ------
 
-# F1 Data Analysis
+# Porpo
 
 <p align="center">
   <img src = src/common/images/icon.png width=45% />
