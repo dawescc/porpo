@@ -65,10 +65,20 @@ There are 2 methods of execution:
 
 ## Usage
 
-Be aware the application allows you to select any data available as an X or Y variable. Some variable combinations may not perform as expected. 
+Porpo allows you to individually set all the variables for evaluation. 
+- Year
+- Grand Prix
+- Session
+- Driver
+- Lap or Full Session data
+- Specified Lap 'N'
+
+From there, an abundance of data is available. Check the [FastF1 documentation](https://theoehrly.github.io/Fast-F1/) to see everything that is available for each option.
+
+Be aware that although you can select any available data as an X or Y variable, some combinations may not perform as expected. 
 
 ### Specific Lap
-You can easily pull and visualize data for a lap of an event's session. Each lap, event, session, and driver can be customized.
+You can easily pull and visualize data for a lap of an event's session.
 
 ![VER_SpeedL_Bah](/src/examples/images/ver_bah_last_speed.png)
 <figcaption align = "center">
