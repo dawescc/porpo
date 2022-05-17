@@ -91,7 +91,7 @@ Alternatively, you can quickly do basic analysis of a fastest lap the selected d
 ### Session
 You can also quickly do an analysis of a driver's performance through an event's entire session.
 
-![VER_SpeedF_Bah](/src/examples/images/bot_miami_ses_stspeed.png)
+![VER_SpeedF_Bah](/src/examples/images/ver_imola_laptime.png)
 <figcaption align = "center">
-  <b>Valtteri Bottas' speed down the straight over the distance of the Miami GP.</b>
+  <b>Max Verstappen laptime over the course of the Imola GP. We can see as the track began to dry, laptimes began to fall very quickly.</b>
 </figcaption>
