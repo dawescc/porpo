@@ -42,7 +42,7 @@ main_layout = [
     [sg.Button('Load', expand_x=True, bind_return_key=True)]
 ]
 
-window = sg.Window('F1 Data Analysis', main_layout, size=(200, 75), keep_on_top=True)
+window = sg.Window('porpo', main_layout, size=(200, 75), keep_on_top=True)
 
 while True:
     event, values = window.read()
