@@ -36,9 +36,9 @@ year_list = range(2018,cur_year+1)
 
 
 main_layout = [[sg.OptionMenu(year_list, default_value=f'{cur_year}', expand_x=True)],
-                [sg.Button('Load', expand_x=True)]]
+                [sg.Button('Load', expand_y=True, expand_x=True)]]
 
-window = sg.Window('porpo', main_layout, size=(500, 250), modal=True)
+window = sg.Window('porpo', main_layout, size=(250, 75), modal=True)
 
 while True:
     event, values = window.read()
