@@ -187,12 +187,10 @@ while True:
 
                 plotting.setup_mpl()
 
-                #plt.rcParams["figure.autolayout"] = True
                 x = driver_xvar
                 y = driver_yvar
                 xmin, xmax = x.min(), x.max()
 
-                #plt.style.use('dark_background')
                 fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
                 plot1 = fig.subplots()
                 plot1.plot(x, y, color=DriverInfo.team_color, label=f"{y.name}")
