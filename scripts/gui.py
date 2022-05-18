@@ -27,17 +27,18 @@ class Dirs():
     # Enable Cache at Cache Path
     fastf1.Cache.enable_cache(cache_path)
 
+# Set Theme
+sg.theme('DarkRed')
+
 # Create Year Range for Year Picker
 cur_year = datetime.datetime.today().year
 year_list = range(2018,cur_year+1)
 
-sg.theme('DarkRed')
-main_layout = [
-    [sg.OptionMenu(year_list, default_value=f'{cur_year}', expand_x=True)],
-    [sg.Button('Load', expand_x=True, bind_return_key=True)]
-]
 
-window = sg.Window('porpo', main_layout, size=(200, 75), keep_on_top=True)
+main_layout = [[sg.OptionMenu(year_list, default_value=f'{cur_year}', expand_x=True)],
+                [sg.Button('Load', expand_x=True)]]
+
+window = sg.Window('porpo', main_layout, size=(500, 250), modal=True)
 
 while True:
     event, values = window.read()
@@ -69,16 +70,16 @@ while True:
                                         [sg.Button('Load', expand_x=True, bind_return_key=True)]]
                     ses_window = sg.Window('Session Selection', ses_win_layout, keep_on_top=True)
 
-                    window.close()
+                    window.finalize()
 
                     while True:
                         ses_event, ses_values = ses_window.read()
                         if ses_event == sg.WIN_CLOSED:
                             break
                         if ses_event == 'Load' or 'Return':
-                            gp_window.close()
+                            gp_window.finalize()
                             ses_type = f'{ses_values[0]}'
-                            ses_window.close()
+                            ses_window.finalize()
 
 
         class SessionInfo:
@@ -95,7 +96,7 @@ while True:
             session.load()
             for i in range(15, 31):
                 ProgBar.progress_bar.update(current_count=i + 1)
-                ProgBar.prog_win.close()
+                ProgBar.prog_win.finalize()
 
             results = session.results
             event_name = session.event['EventName']
@@ -115,7 +116,7 @@ while True:
                     break
                 if driver_event == 'Load' or 'Return':
                     driver = (driver_values[0])
-                    driver_window.close()
+                    driver_window.finalize()
 
 
         class DriverInfo:
@@ -151,7 +152,7 @@ while True:
                         data = lap_n_tel
                         title = f'{fullname} {SessionInfo.event_name} Lap {num[0]} Data:'
                         def_xvalue = f'Distance'
-                        lap_slider_win.close()
+                        lap_slider_win.finalize()
 
                     elif lap_or_ses == 'Fastest Lap':
                         f_lap = ses.pick_fastest()
@@ -165,7 +166,7 @@ while True:
                         title = f'{fullname} {SessionInfo.event_name} Full {SeasonSchedule.ses_type} Session Data:'
                         def_xvalue = f'LapNumber'
 
-                    lap_or_ses_window.close()
+                    lap_or_ses_window.finalize()
 
         var_list = list(DriverInfo.data)
         var_win_layout = [
@@ -203,8 +204,7 @@ while True:
 
                 plt.savefig(f"{Dirs.save_path}/{DriverInfo.fullname} {SessionInfo.event_name} {y.name} Plot.png", dpi=300)
 
-                var_window.close()
+                var_window.finalize()
                 plt.show()
 
 window.close()
-del window
