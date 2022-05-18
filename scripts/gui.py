@@ -1,32 +1,30 @@
-"""
-   Work in progress.
-
-"""
-
-# Imports
-import PySimpleGUI as sg
-import fastf1
-from fastf1 import plotting
-import matplotlib.pylab as plt
-import os
 import datetime
+import os
 
-# Declare Cache and Export Paths
-cache_path = '~/Documents/F1 Data Analysis/Cache/'
-save_path = '~/Documents/F1 Data Analysis/Export/'
+import fastf1
+import matplotlib.pylab as plt
+import PySimpleGUI as sg
+from fastf1 import plotting
 
-# Check if Cache directory Exists & Create if not
-CacheExist = os.path.exists(cache_path)
-if not CacheExist:
-    os.makedirs(cache_path)
+class Dirs():
+    # Declare Cache & Export Paths
+    cache_path = '~/Documents/F1 Data Analysis/Cache/'
+    save_path = '~/Documents/F1 Data Analysis/Export/'
 
-# Check if Cache directory Exists & Create if not
-SaveExist = os.path.exists(save_path)
-if not SaveExist:
-    os.makedirs(save_path)
+    # Check if Cache directory Exists
+    CacheExist = os.path.exists(cache_path)
+    # If it doesn't - Make it
+    if not CacheExist:
+        os.makedirs(cache_path)
 
-# Enable Cache with Cache Path
-fastf1.Cache.enable_cache(cache_path)
+    # Check if Cache directory Exists
+    SaveExist = os.path.exists(save_path)
+    # If it doesn't - Make it
+    if not SaveExist:
+        os.makedirs(save_path)
+
+    # Enable Cache at Cache Path
+    fastf1.Cache.enable_cache(cache_path)
 
 # Create Year Range for Year Picker
 cur_year = datetime.datetime.today().year
@@ -202,7 +200,7 @@ while True:
                 plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
                 plt.suptitle(f"{DriverInfo.fullname} - {SessionInfo.event_name}\n{y.name} Analysis")
 
-                plt.savefig(f"{save_path}/{DriverInfo.fullname} {SessionInfo.event_name} {y.name} Plot.png", dpi=300)
+                plt.savefig(f"{Dirs.save_path}/{DriverInfo.fullname} {SessionInfo.event_name} {y.name} Plot.png", dpi=300)
 
                 var_window.close()
                 plt.show()
