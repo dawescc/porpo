@@ -11,17 +11,18 @@ class Dirs():
     cache_path = '~/Documents/F1 Data Analysis/Cache/'
     save_path = '~/Documents/F1 Data Analysis/Export/'
 
-    # Check if Cache directory Exists
-    CacheExist = os.path.exists(cache_path)
-    # If it doesn't - Make it
-    if not CacheExist:
-        os.makedirs(cache_path)
-
-    # Check if Cache directory Exists
-    SaveExist = os.path.exists(save_path)
-    # If it doesn't - Make it
-    if not SaveExist:
-        os.makedirs(save_path)
+    def mk_cache():
+        # Check if Cache directory Exists
+        CacheExist = os.path.exists(Dirs.cache_path)
+        # If it doesn't - Make it
+        if not CacheExist:
+            os.makedirs(Dirs.cache_path)
+    def mk_export():
+        # Check if Cache directory Exists
+        SaveExist = os.path.exists(Dirs.save_path)
+        # If it doesn't - Make it
+        if not SaveExist:
+            os.makedirs(Dirs.save_path)
 
     # Enable Cache at Cache Path
     fastf1.Cache.enable_cache(cache_path)
