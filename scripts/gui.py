@@ -150,18 +150,17 @@ class Plot():
 ###############################################
 
 def make_window():
-    sg.theme('DarkBlack')
+    sg.theme('DarkRed')
     menu_def = [['&porpo', ['&About', '&Preferences', 'E&xit']]]
-    right_click_menu_def = [[], ['Edit Me', 'Please!']]
 
 # Define Layouts
     gp_layout = [
         [sg.Text('Select the year of Grand Prix:')],
         [sg.OptionMenu(Lists.years, default_value=f'{Lists.years[-1]}', k='-YEAR MENU-')],
         [sg.Button('Load GPs')],
-        
+
         [sg.Text('Select Grand Prix:')],
-        [sg.OptionMenu(Lists.gps, default_value=f'{Lists.gps[0]}', expand_x=True, k='-GP MENU-')],
+        [sg.Listbox(Lists.gps, expand_x=True, horizontal_scroll=False, size=(None, 7), k='-GP MENU-'),],
         
         [sg.Text('Select Session:')],
         [sg.OptionMenu(Lists.sessions, default_value=Lists.sessions[0], k='-SES MENU-')],
@@ -169,7 +168,7 @@ def make_window():
 
     driver_layout = [
         [sg.Text('Select Driver:')],
-        [sg.OptionMenu(Lists.drivers, k='-DRIVER MENU-')],
+        [sg.Listbox(Lists.drivers, expand_x=True, horizontal_scroll=False, size=(None, 7), k='-DRIVER MENU-')],
         [sg.Button('Load Data')]]
 
     lap_layout = [
@@ -193,7 +192,7 @@ def make_window():
     
     layout = [
         [sg.MenubarCustom(menu_def, key='-MENU-')],
-        [sg.Frame('Home', frame_layout, expand_x=True, expand_y=True,)]
+        [sg.Frame('',frame_layout, expand_x=True, expand_y=True,)]
     ]
     
     layout += [[sg.TabGroup([[sg.Tab('Grand Prix', gp_layout, key='-GP TAB-', expand_x=True, expand_y=True),
@@ -203,8 +202,7 @@ def make_window():
 
                 ]]
 
-    window = sg.Window('porpo', layout, right_click_menu=right_click_menu_def,
-                       right_click_menu_tearoff=True, grab_anywhere=True, resizable=True, margins=(0, 0),
+    window = sg.Window('porpo', layout, right_click_menu_tearoff=True, grab_anywhere=True, resizable=True, margins=(0, 0),
                        use_custom_titlebar=True, finalize=True, keep_on_top=True, #scaling=2.0,
                        )
 
