@@ -1,5 +1,6 @@
 import datetime
 import os
+import webbrowser
 
 import fastf1
 import matplotlib.pylab as plt
@@ -10,25 +11,26 @@ from fastf1 import plotting
 # Define Classes
 ###############################################
 
-class dirs():
-    # Declare Cache & Export Paths
-    cache_path = '~/Documents/F1 Data Analysis/Cache/'
-    save_path = '~/Documents/F1 Data Analysis/Export/'
+class CacheDir:
+    def __init__(self, path):
+        path = 'path'
 
-    # Check if Cache directory Exists
-    CacheExist = os.path.exists(cache_path)
-    # If it doesn't - Make it
-    if not CacheExist:
-        os.makedirs(cache_path)
+    def Set(path):
+        CacheExist = os.path.exists(path)
+        if not CacheExist:
+            os.makedirs(path)
+        cache_path = path
 
-    # Check if Cache directory Exists
-    SaveExist = os.path.exists(save_path)
-    # If it doesn't - Make it
-    if not SaveExist:
-        os.makedirs(save_path)
+class ExportDir:
+    def __init__(self, path):
+        path = 'path'
 
-    # Enable Cache at Cache Path
-    fastf1.Cache.enable_cache(cache_path)
+    def Set(path):
+        ExportExist = os.path.exists(path)
+        if not ExportExist:
+            os.makedirs(path)
+        save_path = path
+
 
 class Years():
     # Create Year Range for Year Picker
@@ -227,6 +229,40 @@ def main():
 # Define functions for button pushes
 ###############################################
         class ButtonFunc:
+
+            #About
+            def about():
+                about_layout = [[sg.Text('porpo is not affiliated with Formula 1 or the FIA')],
+                                [sg.Text('License MIT - Free to Distribute', justification='center')],]
+                about_win = sg.Window('About porpo', about_layout, size=(200,50), modal=True, keep_on_top=True, disable_close=False)
+                event = about_win.read()
+                if event == sg.WIN_CLOSED:
+                    about_win.close()
+
+            #Preferences
+            def preferences():
+                pref_layout = [[[sg.Text('Select Your Cache Folder for Session')], [sg.FolderBrowse('Set Cache', enable_events=True, key='-CACHE-')]],
+                                [[sg.Text('Select Your Export Folder for Session')], [sg.FolderBrowse('Set Export', enable_events=True, key='-EXPORT-')]],
+                                [[sg.Push()], [sg.OK('OK')]],]
+                pref_win = sg.Window('porpo Preferences', pref_layout, modal=True, keep_on_top=True, disable_close=True, force_toplevel=True)
+                event, values = pref_win.read()
+                while True:
+                    if event == 'OK' or sg.WIN_CLOSED:
+                        pref_win.close(); del pref_win
+
+                    elif event == 'Set Cache':
+                        CacheDir.Set({values['-CACHE-']})
+                        print(f"Set CACHE to {values['-CACHE-']}")
+
+                    elif event == 'Set Export':
+                        ExportDir.Set({values['-CACHE-']})
+                        print(f"Set CACHE to {values['-EXPORT-']}")
+
+            #GitHub
+            def GitHub():
+                webbrowser.open('https://github.com/dtech-auto/porpo/', new=2)
+                print(f"[LOG] Load Grand Prix for {values['-YEAR-']}")
+
             # Load GP Button
             def load_gp():
                 print(f"[LOG] Load Grand Prix for {values['-YEAR MENU-']}")
@@ -264,17 +300,19 @@ def main():
         # About
         elif event == 'About':
             print("[LOG] Clicked About")
-            sg.popup('About porpo',
-                    'porpo is in no way affiliated with Formula 1 or the FIA',
-                    ('github/dtech-auto/porpo'),
-                    'twitter/dawesinho',
-                    keep_on_top=True)
+            ButtonFunc.about()
 
         # Menu Items
         # Preferences
         elif event == 'Preferences':
             print("[LOG] Clicked Preferences")
-            sg.popup('porpo preferences', keep_on_top=True)
+            ButtonFunc.preferences()
+
+        # Menu Items
+        # GitHub
+        elif event == 'GitHub':
+            print("[LOG] Clicked Preferences")
+            ButtonFunc.GitHub()
 
         # Grand Prix Items
         # Load GPs
