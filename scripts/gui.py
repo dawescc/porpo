@@ -151,7 +151,7 @@ class Plot():
 
 def make_window():
     sg.theme('DarkRed')
-    menu_def = [['&porpo', ['&About', '&Preferences', 'E&xit']]]
+    menu_def = [[('&porpo'), ['&About', '&Preferences', '&GitHub', 'E&xit']]]
 
 # Define Layouts
     gp_layout = [
@@ -159,16 +159,17 @@ def make_window():
         [sg.OptionMenu(Lists.years, default_value=f'{Lists.years[-1]}', k='-YEAR MENU-')],
         [sg.Button('Load GPs')],
 
-        [sg.Text('Select Grand Prix:')],
-        [sg.Listbox(Lists.gps, expand_x=True, horizontal_scroll=False, size=(None, 7), k='-GP MENU-'),],
-        
         [sg.Text('Select Session:')],
         [sg.OptionMenu(Lists.sessions, default_value=Lists.sessions[0], k='-SES MENU-')],
-        [sg.Button('Load Drivers')]]
+        [sg.Button('Load Drivers')],
+
+        [sg.Text('Select Grand Prix:')],
+        [sg.Listbox(Lists.gps, expand_x=True, horizontal_scroll=False, size=(None, 7), enable_events=True, k='-GP MENU-'),]]
+        
 
     driver_layout = [
         [sg.Text('Select Driver:')],
-        [sg.Listbox(Lists.drivers, expand_x=True, horizontal_scroll=False, size=(None, 7), k='-DRIVER MENU-')],
+        [sg.Listbox(Lists.drivers, expand_x=True, horizontal_scroll=False, size=(None, 7), enable_events=True, k='-DRIVER MENU-')],
         [sg.Button('Load Data')]]
 
     lap_layout = [
@@ -191,14 +192,14 @@ def make_window():
 
     
     layout = [
-        [sg.MenubarCustom(menu_def, key='-MENU-')],
+        [sg.Menubar(menu_def, key='-MENU-')],
         [sg.Frame('',frame_layout, expand_x=True, expand_y=True,)]
     ]
     
     layout += [[sg.TabGroup([[sg.Tab('Grand Prix', gp_layout, key='-GP TAB-', expand_x=True, expand_y=True),
                               sg.Tab('Drivers', driver_layout, key='-DRIVER TAB-', expand_x=True, expand_y=True),
                               sg.Tab('Laps', lap_layout, key='-LAPS TAB-', expand_x=True, expand_y=True),
-                              sg.Tab('Variables', var_layout)]], key='-TAB GROUP-', expand_x=True, expand_y=True, enable_events=True),
+                              sg.Tab('Variables', var_layout)]], key='-TAB GROUP-', expand_x=True, expand_y=True),
 
                 ]]
 
@@ -264,9 +265,10 @@ def main():
         elif event == 'About':
             print("[LOG] Clicked About")
             sg.popup('About porpo',
-                     'GitHub',
-                     'Twitter',
-                     keep_on_top=True)
+                    'porpo is in no way affiliated with Formula 1 or the FIA',
+                    ('github/dtech-auto/porpo'),
+                    'twitter/dawesinho',
+                    keep_on_top=True)
 
         # Menu Items
         # Preferences
