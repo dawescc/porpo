@@ -8,10 +8,13 @@ import PySimpleGUI as sg
 from fastf1 import plotting
 
 ###############################################
-# Define Classes
+# Directory Functions
 ###############################################
 
 class CacheDir:
+
+    default = '~/Documents/porpo/Cache'
+
     def __init__(self, path):
         path = 'path'
 
@@ -19,9 +22,12 @@ class CacheDir:
         CacheExist = os.path.exists(path)
         if not CacheExist:
             os.makedirs(path)
-        cache_path = path
+        CacheDir.default = path
 
 class ExportDir:
+
+    default = '~/Documents/porpo/Export'
+
     def __init__(self, path):
         path = 'path'
 
@@ -29,193 +35,77 @@ class ExportDir:
         ExportExist = os.path.exists(path)
         if not ExportExist:
             os.makedirs(path)
-        save_path = path
-
-
-class Years():
-    # Create Year Range for Year Picker
-    this_year = datetime.datetime.today().year
-    list = list(range(2018, this_year+1))
-
-class Input():
-    season = fastf1.get_event_schedule(Years.this_year)
-    gps = list(season['EventName'])
-
-    if 'values' in locals():
-        grand_prix = values['-GP MENU-']
-        year = values['-YEAR MENU-']
-        ses = values['-SES MENU-']
-        driver = values['-DRIVER MENU-']
-    else:
-        grand_prix = f'{gps[0]}'
-        year = int(f'{Years.this_year}')
-        ses = 'FP1'
-        driver = f'VER'
-
-class Session():
-    data = fastf1.get_session(Input.year, Input.grand_prix, Input.ses)
-    data.load()
-    results = data.results
-    event = data.event['EventName']
-
-    def __init__(self):
-        self.data.load()
-
-class Driver():
-    info = Session.data.get_driver(Input.driver)
-    session = Session.data.laps.pick_driver(Input.driver)
-    fullname = info['FullName']
-    team = info['TeamName']
-    team_color = fastf1.plotting.team_color(team)
-
-    if 'values' in locals():
-        lap_or_ses = values['-LAP MENU-']
-    else:
-        lap_or_ses = f'Fastest'
-
-    if lap_or_ses == 'Lap':
-        lap_num = int(sg.popup([sg.Slider((session['LapNumber'].min(), session['LapNumber'].max()), orientation='h')]))
-        lap_n = session[session['LapNumber'] == lap_num]
-        lap_n_tel = lap_n.get_telemetry()
-        # Define Lap N Data for Selection
-        data = lap_n_tel
-        title = f'{fullname} {Session.event} Lap {lap_num} Data:'
-        def_xvalue = f'Distance'
-        def_yvalue = f'Speed'
-        
-
-    elif lap_or_ses == 'Fastest Lap':
-        personal_best = session.pick_fastest()
-        fast_lap = personal_best.get_telemetry()
-        # Define Fastest Lap Data for Selection
-        data = fast_lap
-        title = f'{fullname} {Session.event} Fastest Lap Data:'
-        def_xvalue = f'Distance'
-        def_yvalue = f'Speed'
-
-    else:
-        # Define Full Session Data for Selection
-        data = session
-        title = f'{fullname} {Session.event} Full Session Data:'
-        def_xvalue = f'LapNumber'
-        def_yvalue = f'LapTime'
-
-class Lists():
-        sessions = ['FP1', 'FP2', 'FP3', 'S', 'Q', 'R']
-        lap_or_ses = ['Lap', 'Full Session', 'Fastest Lap']
-        years = Years.list
-        gps = Input.gps
-        drivers = list(Session.results['Abbreviation'])
-        vars = list(Driver.data)
-
-class Data():
-    if 'values' in locals():
-        y = values['-Y VAR-']
-        x = values['-X VAR-']
-        req_dat_y = Lists.vars[y]
-        req_dat_x = Lists.vars[x]
-    else:
-        y = 6
-        x = 12
-        req_dat_y = Lists.vars[y]
-        req_dat_x = Lists.vars[x]
-
-class Plot():
-    def plot():
-        driver_yvar = DriverInfo.data[f'{var_values[0]}']
-        driver_xvar = DriverInfo.data[f'{var_values[1]}']
-
-        plotting.setup_mpl()
-
-        x = driver_xvar
-        y = driver_yvar
-        xmin, xmax = x.min(), x.max()
-
-        fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
-        plot1 = fig.subplots()
-        plot1.plot(x, y, color=DriverInfo.team_color, label=f"{y.name}")
-        plot1.set_ylabel(f"{y.name}")
-        plot1.set_xlabel(f"{x.name}")
-        plot1.set_xlim(xmin, xmax)
-        plot1.minorticks_on()
-        plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
-        plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
-        plt.suptitle(f"{DriverInfo.fullname} - {SessionInfo.event_name}\n{y.name} Analysis")
-
-        plt.savefig(f"{save_path}/{DriverInfo.fullname} {SessionInfo.event_name} {y.name} Plot.png", dpi=300)
-
-        var_window.close()
-        plt.show()
+        ExportDir.default = path
 
 ###############################################
-# Make Window, Menubar, and Set Theme
+# Define Year List for GPs (2018+ Available)
+###############################################
+
+class MakeList:
+    def __init__(self, name, list):
+        self.name = name
+        self.list = list
+
+    def print_list(self):
+        print(self.list)
+
+class Session:
+    def __init__(self, year, gp, ses):
+        self.year = year
+        self.gp = gp
+        self.ses = ses
+        self.data = 'data'
+
+    def load(self):
+        CacheDir.Set(CacheDir.default)
+        fastf1.Cache.enable_cache(CacheDir.default)
+        data = fastf1.get_session(self.year, self.gp, self.ses)
+        data.load()
+        self.data = data
+        return data
+
+class Lists:
+    Years = MakeList('Years', list(range(2018, (int(datetime.datetime.today().year)+1))))
+    GrandPrix = MakeList('GrandPrix', list(fastf1.get_event_schedule(Years.list[-1])['EventName']))
+    Sessions = MakeList('Sessions', ['FP1', 'FP2', 'FP3', 'S', 'Q', 'R'])
+    Drivers = MakeList('Drivers', ['Driver 1', 'Driver 2', 'Driver 3'])
+    SessionSlice = MakeList('SessionSlice', ['Full Session', 'Specific Lap', 'Fastest'])
+    DriverVars = MakeList('DriverVars', ['Var 1', 'Var 2', 'Var 3'])
+
+###############################################
+# Define Window
 ###############################################
 
 def make_window():
-    sg.theme('DarkRed')
-    menu_def = [[('&porpo'), ['&About', '&Preferences', '&GitHub', 'E&xit']]]
+    sg.theme('DarkBlack')
 
-# Define Layouts
-    gp_layout = [
-        [sg.Text('Select the year of Grand Prix:')],
-        [sg.OptionMenu(Lists.years, default_value=f'{Lists.years[-1]}', k='-YEAR MENU-')],
-        [sg.Button('Load GPs')],
-
-        [sg.Text('Select Session:')],
-        [sg.OptionMenu(Lists.sessions, default_value=Lists.sessions[0], k='-SES MENU-')],
-        [sg.Button('Load Drivers')],
-
-        [sg.Text('Select Grand Prix:')],
-        [sg.Listbox(Lists.gps, expand_x=True, horizontal_scroll=False, size=(None, 7), enable_events=True, k='-GP MENU-'),]]
-        
-
-    driver_layout = [
-        [sg.Text('Select Driver:')],
-        [sg.Listbox(Lists.drivers, expand_x=True, horizontal_scroll=False, size=(None, 7), enable_events=True, k='-DRIVER MENU-')],
-        [sg.Button('Load Data')]]
-
-    lap_layout = [
-        [sg.Text('Evaluate session or lap?')],
-        [sg.OptionMenu(Lists.lap_or_ses, default_value=Lists.lap_or_ses[0], k='-LAP MENU-')],
-        [sg.Button('Load Variables')]]
-
-    var_layout = [
-        [sg.Text(f'{Driver.title}')],
-        [sg.Text('Y Variable:')], [sg.OptionMenu(Lists.vars, default_value=Driver.def_yvalue, k='-Y VAR-')],
-        [sg.Text('X Variable:')], [sg.OptionMenu(Lists.vars, default_value=Driver.def_xvalue, k='-X VAR-')],
-        [sg.Button('Plot', expand_x=True)]]
-
-    frame_layout = [[sg.Image(source='src/common/images/icon_small.png', expand_x=True, expand_y=True, key='-LOGO-')]
-        ]
-
-    preferences_layout = [
-
-    ]
-
+    menu_def = [[('&porpo'), ['&About', ('&Preferences'), ['&Set Cache Directory', 'Set Export Directory'], '&GitHub', 'E&xit']]]
     
-    layout = [
-        [sg.Menubar(menu_def, key='-MENU-')],
-        [sg.Frame('',frame_layout, expand_x=True, expand_y=True,)]
-    ]
-    
-    layout += [[sg.TabGroup([[sg.Tab('Grand Prix', gp_layout, key='-GP TAB-', expand_x=True, expand_y=True),
-                              sg.Tab('Drivers', driver_layout, key='-DRIVER TAB-', expand_x=True, expand_y=True),
-                              sg.Tab('Laps', lap_layout, key='-LAPS TAB-', expand_x=True, expand_y=True),
-                              sg.Tab('Variables', var_layout)]], key='-TAB GROUP-', expand_x=True, expand_y=True),
+    header_layout = [[sg.Image(source='src/common/images/icon_small.png', size=(120,60), expand_x=True, expand_y=True)],]
 
-                ]]
+    layout = [[sg.Menubar(menu_def, key='-MENU-')],
+                [sg.Frame('', header_layout, size=(250,75), key='-HEAD-')],
+                [sg.OptionMenu(Lists.Years.list, default_value=f'{Lists.Years.list[-1]}', expand_x=True, key='-YEAR-')],
+                [sg.Button('Load Season', expand_x=True)],
+                [sg.Listbox(Lists.GrandPrix.list, enable_events=True, expand_x=True, size=(None,10), select_mode='single', horizontal_scroll=False, visible=False, pad=(7,7,7,7), key='-GP-')],
+                [sg.OptionMenu(Lists.Sessions.list, default_value=f'Select Session...', expand_x=True, visible=False, key='-SESSION-')],
+                [sg.Button('Load Drivers for Session', visible=False, expand_x=True, key='-LOADDRIVERS-')],
+                [sg.Listbox(Lists.Drivers.list, enable_events=True, expand_x=True, size=(None,10), select_mode='single', horizontal_scroll=False, visible=False, pad=(7,7,7,7), key='-DRIVER-')],
+                [sg.OptionMenu(Lists.SessionSlice.list, default_value=f'Evalutate Full Session?', expand_x=True, visible=False, key='-SLICE-')],
+                [sg.Button('Select Driver Data Points', visible=False, expand_x=True, key='-LOADVARS-')],
+                [sg.OptionMenu(Lists.DriverVars.list, default_value='Distance', expand_x=True, visible=False, key='-DRIVERYVAR-')],
+                [sg.OptionMenu(Lists.DriverVars.list, default_value='Speed', expand_x=True, visible=False, key='-DRIVERXVAR-')],
+                [sg.Button('Analyse', visible=False, expand_x=True, key='-PLOT-')],
+                ]
 
-    window = sg.Window('porpo', layout, right_click_menu_tearoff=True, grab_anywhere=True, resizable=True, margins=(0, 0),
-                       use_custom_titlebar=True, finalize=True, keep_on_top=True, #scaling=2.0,
-                       )
+    window = sg.Window('porpo', layout, margins=(0, 0), finalize=True)
 
-# Set Window Size
-# Return
     window.set_min_size(window.size)
+    
     return window
 
 ###############################################
-# Define Main fuction
+# Define Main fuction to run Window
 ###############################################
 
 def main():
@@ -226,109 +116,188 @@ def main():
         event, values = window.read(timeout=100)
         
 ###############################################
-# Define functions for button pushes
+# Define what happens when a button is pushed
 ###############################################
+        
         class ButtonFunc:
 
             #About
-            def about():
+            def About():
                 about_layout = [[sg.Text('porpo is not affiliated with Formula 1 or the FIA')],
                                 [sg.Text('License MIT - Free to Distribute', justification='center')],]
-                about_win = sg.Window('About porpo', about_layout, size=(200,50), modal=True, keep_on_top=True, disable_close=False)
+                about_win = sg.Window('About porpo', about_layout, size=(200,50), modal=True, keep_on_top=True)
                 event = about_win.read()
                 if event == sg.WIN_CLOSED:
                     about_win.close()
 
             #Preferences
-            def preferences():
-                pref_layout = [[[sg.Text('Select Your Cache Folder for Session')], [sg.FolderBrowse('Set Cache', enable_events=True, key='-CACHE-')]],
-                                [[sg.Text('Select Your Export Folder for Session')], [sg.FolderBrowse('Set Export', enable_events=True, key='-EXPORT-')]],
-                                [[sg.Push()], [sg.OK('OK')]],]
+            def Preferences():
+                pref_layout = [[[sg.Text('Session Cache Folder')], [sg.Button("Set Cache", expand_x=True)]],
+                                [[sg.Text('Session Export Directory')], [sg.Button("Set Export", expand_x=True)],
+                                [sg.OK('OK')]],]
                 pref_win = sg.Window('porpo Preferences', pref_layout, modal=True, keep_on_top=True, disable_close=True, force_toplevel=True)
                 event, values = pref_win.read()
                 while True:
                     if event == 'OK' or sg.WIN_CLOSED:
-                        pref_win.close(); del pref_win
+                        pref_win.close()
 
                     elif event == 'Set Cache':
-                        CacheDir.Set({values['-CACHE-']})
-                        print(f"Set CACHE to {values['-CACHE-']}")
+                        path = sg.popup_get_folder('Choose your CACHE directory', no_window=True, default_path=f'{CacheDir.default}')
+                        CacheDir.Set(path)
+                        print(f"Set CACHE to {path}")
 
                     elif event == 'Set Export':
-                        ExportDir.Set({values['-CACHE-']})
-                        print(f"Set CACHE to {values['-EXPORT-']}")
+                        path = sg.popup_get_folder('Choose your EXPORT directory', no_window=True, default_path=f'{ExportDir.default}')
+                        ExportDir.Set(path)
+                        print(f"Set EXPORT to {path}")
+
+            #Set Cache Directory
+            def Pref_SetCache():
+                path = sg.popup_get_folder('Choose your folder', no_window=True, default_path=CacheDir.default, initial_folder=CacheDir.default)
+                if path in (None, ''):
+                    pass
+                else:
+                    CacheDir.Set(str(path))
+                    print(f'[LOG] set CACHE to {path}')
+            
+            #Set Export Directory
+            def Pref_SetExport():
+                path = sg.popup_get_folder('Choose your folder', no_window=True, default_path=ExportDir.default, initial_folder=ExportDir.default)
+                if path in (None, ''):
+                    pass
+                else:
+                    ExportDir.Set(str(path))
+                    print(f'[LOG] set EXPORT to {path}')
 
             #GitHub
             def GitHub():
                 webbrowser.open('https://github.com/dtech-auto/porpo/', new=2)
                 print(f"[LOG] Load Grand Prix for {values['-YEAR-']}")
 
-            # Load GP Button
-            def load_gp():
-                print(f"[LOG] Load Grand Prix for {values['-YEAR MENU-']}")
-                Input.year = int(values['-YEAR MENU-'])
-                Input.season = fastf1.get_event_schedule(Input.year)
-                Input.gps = list(Input.season['EventName'])
-                update_data = (Input.gps)
-                window.Element('-GP MENU-').update(values=update_data)
-                window.Element('-GP MENU-').default_value=(f'{Input.gps[0]}')
+            # Load GPs
+            def LoadGPList():
+                print(f"[LOG] Load Grand Prix for {values['-YEAR-']}")
+                Lists.GrandPrix = MakeList('Grand Prix', list(fastf1.get_event_schedule(int(values['-YEAR-']))['EventName']))
+                window.Element('-GP-').update(values=Lists.GrandPrix.list, visible=True)
+                window.Element('-SESSION-').update(visible=True)
+                window.Element('-LOADDRIVERS-').update(visible=True)
+                window.Element('-DRIVER-').update(visible=False)
                 window.refresh()
+                window.read()
 
-            def load_drivers():
-                print(f"[LOG] Load Drivers for {values['-GP MENU-']}!")
-                Input.year = int(values['-YEAR MENU-'])
-                Input.grand_prix = str(values['-GP MENU-'])
-                Input.ses = str(values['-SES MENU-'])
-                Session()
-                Lists.drivers = list(Session.results['Abbreviation'])
-                update_data = (Lists.drivers)
-                window.Element('-DRIVER MENU-').update(values=update_data)
-                window.refresh
-                window.find_element('-DRIVER MENU-').set_focus()
+            # Load Drivers
+            def LoadDriverList():
+                print(f"[LOG] Load Drivers for ...")
+                eventIQ = Session(int(values['-YEAR-']), str(values['-GP-']), str(values['-SESSION-']))
+                Session.load(eventIQ)
+                results = eventIQ.data.results
+                drivers = list(results['FullName'])
+                Lists.Drivers = MakeList('Drivers', list(drivers))
+                window.Element('-DRIVER-').update(values=Lists.Drivers.list, visible=True)
+                window.Element('-SLICE-').update(visible=True)
+                window.Element('-LOADVARS-').update(visible=True)
+                window.refresh()
+                window.read()
+
+            def LoadDriverVars():
+                print(f"[LOG] Load variables for {values['-DRIVER-']}")
+                eventIQ = Session(int(values['-YEAR-']), str(values['-GP-']), str(values['-SESSION-']))
+                Session.load(eventIQ)
+                fullname = values['-DRIVER-'][0]
+                identifier = eventIQ.data._results['Abbreviation'][0]
+                ses = eventIQ.data.laps.pick_driver(f'{identifier}')
+                f_lap = ses.pick_fastest()
+                fastest_lap = f_lap.get_telemetry()
+                f_lap_data = fastest_lap
+                var_list = list(f_lap_data)
+                Lists.DriverVars = MakeList('DriverVars', list(var_list))
+                window.Element('-DRIVERXVAR-').update(values=Lists.DriverVars.list, visible=True)
+                window.Element('-DRIVERYVAR-').update(values=Lists.DriverVars.list, visible=True)
+                window.Element('-PLOT-').update(visible=True)
+                window.refresh()
+                window.read()
+
+            def Analyse():
+                print(f"[LOG] Plotting variables for {values['-DRIVER-']}")
+                eventIQ = Session(int(values['-YEAR-']), str(values['-GP-']), str(values['-SESSION-']))
+                Session.load(eventIQ)
+                identifier = eventIQ.data._results['Abbreviation'][0]
+                driver_color = fastf1.plotting.driver_color(f"{identifier}")
+                ses = eventIQ.data.laps.pick_driver(f'{identifier}')
+                f_lap = ses.pick_fastest()
+                fastest_lap = f_lap.get_telemetry()
+                f_lap_data = fastest_lap
+                
+                driver_yvar = f_lap_data[f"{values['-DRIVERYVAR-']}"]
+                driver_xvar = f_lap_data[f"{values['-DRIVERXVAR-']}"]
+                x = driver_xvar
+                y = driver_yvar
+                xmin, xmax = x.min(), x.max()
+                
+                fastf1.plotting.setup_mpl(mpl_timedelta_support=True, color_scheme='fastf1', misc_mpl_mods=True)
+                fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
+                plot1 = fig.subplots()
+                plot1.plot(x, y, color=driver_color, label=f"{y.name}")
+                plot1.set_ylabel(f"{y.name}")
+                plot1.set_xlabel(f"{x.name}")
+                plot1.set_xlim(xmin, xmax)
+                plot1.minorticks_on()
+                plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
+                plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
+                plt.suptitle(f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n{values['-DRIVERYVAR-']} Analysis")
+                plt.savefig(f"{ExportDir.default}/Plot.png", dpi=300)
+                plt.show()
+
 
 ###############################################
 # Begin 'If' Events for Button Pushes
 ###############################################
 
-        # Menu Items
         # Exit
         if event in (None, 'Exit'):
-            print("[LOG] Clicked Exit!")
             break
 
-        # Menu Items
         # About
         elif event == 'About':
-            print("[LOG] Clicked About")
-            ButtonFunc.about()
+            ButtonFunc.About()
 
-        # Menu Items
         # Preferences
         elif event == 'Preferences':
-            print("[LOG] Clicked Preferences")
-            ButtonFunc.preferences()
+            ButtonFunc.Preferences()
 
-        # Menu Items
+        # Set Cache Dir
+        elif event == 'Set Cache Directory':
+            ButtonFunc.Pref_SetCache()
+
+        # Set Export Dir
+        elif event == 'Set Cache Directory':
+            ButtonFunc.Pref_SetExport()
+
         # GitHub
         elif event == 'GitHub':
-            print("[LOG] Clicked Preferences")
             ButtonFunc.GitHub()
 
-        # Grand Prix Items
         # Load GPs
-        elif event == 'Load GPs':
-            ButtonFunc.load_gp()
+        elif event == 'Load Season':
+            ButtonFunc.LoadGPList()
 
-        # Grand Prix Items
         # Load Drivers        
-        elif event == 'Load Drivers':
-            ButtonFunc.load_drivers()
+        elif event == '-LOADDRIVERS-':
+            ButtonFunc.LoadDriverList()
+
+        # Load Drivers        
+        elif event == '-LOADVARS-':
+            ButtonFunc.LoadDriverVars()
+
+        # Plot        
+        elif event == '-PLOT-':
+            ButtonFunc.Analyse()
 
     window.close()
     exit(0)
 
 ###############################################
-# Check if exexcuted from Main
+# Execute Main
 ###############################################
 
 if __name__ == '__main__':
