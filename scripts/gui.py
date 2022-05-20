@@ -295,7 +295,7 @@ def main():
 
 
 ###############################################
-# Begin 'If' Events for Button Push
+# Begin 'If' Events for Button Pushes
 ###############################################
 
         # Exit
