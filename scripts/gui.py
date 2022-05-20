@@ -105,7 +105,7 @@ def make_window():
 
     menu_def = [[('&porpo'), ['&About', ('&Preferences'), ['&Set Cache Directory', 'Set Export Directory'], '&GitHub', 'E&xit']]]
     
-    header_layout = [[sg.Image(source='src/common/images/icon_small.png', size=(120,60), expand_x=True, expand_y=True)],]
+    header_layout = [[sg.Image(source='https://github.com/dtech-auto/porpo/blob/c2d81e7b36a5c16a6344dc79cf975013c7dca9bf/src/common/images/icon_small.png', size=(120,60), expand_x=True, expand_y=True)],]
 
     layout = [[sg.Menubar(menu_def, key='-MENU-')],
                 [sg.Frame('', header_layout, size=(250,75), key='-HEAD-')],
