@@ -44,8 +44,6 @@ class ExportDir:
 
 ##############################
 
-import fastf1
-from fastf1 import plotting
 
 class Session:
 
@@ -105,7 +103,7 @@ def make_window():
     sg.theme('Reddit')
 
     menu_def = [[('&porpo'), ['&About', ('&Preferences'), ['&Set Cache Directory', 'Set Export Directory'], '&GitHub', 'E&xit']]]
-    
+
     header_layout = [[sg.Image(source='src/common/images/icon_small.png', size=(120, 60), expand_x=True, expand_y=True)],]
 
     layout = [[sg.Menubar(menu_def, key='-MENU-')],
@@ -121,13 +119,13 @@ def make_window():
                 [sg.OptionMenu(Lists.DriverVars.list, default_value='.Y Variable...', expand_x=True, visible=False, key='-DRIVERYVAR-')],
                 [sg.OptionMenu(Lists.DriverVars.list, default_value='.X Variable...', expand_x=True, visible=False, key='-DRIVERXVAR-')],
                 [sg.Button('Confirm All', visible=False, expand_x=True, key='-CONFIRM ALL-')],
-                [sg.Button('Analyse', visible=False, disabled=True, expand_x=True, key='-PLOT-')], 
+                [sg.Button('Analyse', visible=False, disabled=True, expand_x=True, key='-PLOT-')],
                 ]
 
     window = sg.Window('porpo', layout, margins=(0, 0), finalize=True)
 
     window.set_min_size(window.size)
-    
+
     return window
 
 ###############################################
@@ -140,11 +138,11 @@ def main():
     # Window Open, Begin Event Loop
     while True:
         event, values = window.read(timeout=100)
-        
+
 ###############################################
 # Define what happens when a button is pushed
 ###############################################
-        
+
         class ButtonFunc:
 
             #About
@@ -185,7 +183,7 @@ def main():
                 else:
                     CacheDir.Set(str(path))
                     print(f'[LOG] set CACHE to {path}')
-            
+
             #Set Export Directory
             def Pref_SetExport():
                 path = sg.popup_get_folder('Choose your folder', no_window=True, default_path=ExportDir.default, initial_folder=ExportDir.default)
@@ -251,7 +249,7 @@ def main():
                     lap_min, lap_max = int(ses['LapNumber'].min()), int(ses['LapNumber'].max())
                     lap_range = range(lap_min, (lap_max + 1))
                     Lists.Laps = Lists.make('Laps', (list(lap_range)))
-                    lap_layout = [  [sg.Text('Select Lap Number')], 
+                    lap_layout = [  [sg.Text('Select Lap Number')],
                                     [sg.Spin(Lists.Laps.list, expand_x=True, key='-LAPNUM-')],
                                     [sg.Button('Ok', expand_x=True)],
                                 ]
@@ -270,13 +268,13 @@ def main():
                             plot_title = f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n Lap {num} "
                             lap_win.close()
                             break
-                    
+
 
                 else:
                     driver.data = ses
                     var_list = list(driver.data)
                     plot_title = f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n Full Session '{values['-SESSION-']}' "
-                
+
                 var_list = list(driver.data)
                 Lists.DriverVars = Lists.make('DriverVars', var_list)
                 window.Element('-DRIVERXVAR-').update(values=Lists.DriverVars.list)
@@ -287,7 +285,7 @@ def main():
                 window.Element('-PLOT-').update(visible=True)
                 window.refresh()
                 window.read(timeout=100)
-                
+
 
             def Confirm():
                 window.Element('-PLOT-').update(disabled=False)
@@ -303,7 +301,7 @@ def main():
                 x = driver_xvar
                 y = driver_yvar
                 xmin, xmax = x.min(), x.max()
-            
+
                 fastf1.plotting.setup_mpl(mpl_timedelta_support=True, color_scheme='fastf1', misc_mpl_mods=True)
                 fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
                 plot1 = fig.subplots()
@@ -351,11 +349,11 @@ def main():
         elif event == 'Load Season':
             ButtonFunc.LoadGPList()
 
-        # Load Drivers        
+        # Load Drivers
         elif event == '-LOADDRIVERS-':
             ButtonFunc.LoadDriverList()
 
-        # Load Drivers        
+        # Load Drivers
         elif event == '-LOADVARS-':
             ButtonFunc.LoadDriverVars()
 
@@ -363,7 +361,7 @@ def main():
         elif event == '-CONFIRM ALL-':
             ButtonFunc.Confirm()
 
-        # Plot        
+        # Plot
         elif event == '-PLOT-':
             ButtonFunc.Analyse()
 
