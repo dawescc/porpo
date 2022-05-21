@@ -101,7 +101,7 @@ class Lists:
 ###############################################
 
 def make_window():
-    sg.theme('DarkBlack')
+    sg.theme('Reddit')
 
     menu_def = [[('&porpo'), ['&About', ('&Preferences'), ['&Set Cache Directory', 'Set Export Directory'], '&GitHub', 'E&xit']]]
     
