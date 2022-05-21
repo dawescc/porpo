@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src = [src/common/images/icon.png](https://github.com/dtech-auto/porpo/blob/87059dbb04f4339d2cd4fcc92709fccfc03df7e7/src/examples/images/screenshots/porpo.png) />
+  <img src = https://github.com/dtech-auto/porpo/blob/87059dbb04f4339d2cd4fcc92709fccfc03df7e7/src/examples/images/screenshots/porpo.png />
 </p>
 
 <p align="center">
