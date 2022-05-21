@@ -114,10 +114,11 @@ def make_window():
                 [sg.Button('Load Season', expand_x=True)],
                 [sg.Listbox(Lists.GrandPrix.list, enable_events=True, expand_x=True, size=(None,10), select_mode='single', horizontal_scroll=False, visible=False, pad=(7,7,7,7), key='-GP-')],
                 [sg.OptionMenu(Lists.Sessions.list, default_value=f'Select Session...', expand_x=True, visible=False, key='-SESSION-')],
-                [sg.Button('Load Drivers for Session', visible=False, expand_x=True, key='-LOADDRIVERS-')],
+                [sg.Button('Load Drivers for Session', visible=False, disabled=True, expand_x=True, key='-LOADDRIVERS-')],
                 [sg.Listbox(Lists.Drivers.list, enable_events=True, expand_x=True, size=(None,10), select_mode='single', horizontal_scroll=False, visible=False, pad=(7,7,7,7), key='-DRIVER-')],
-                [sg.OptionMenu(Lists.SessionSlice.list, default_value=f'Evalutate Full Session?', expand_x=True, visible=False, key='-SLICE-')],
-                [sg.Button('Select Driver Data Points', visible=False, expand_x=True, key='-LOADVARS-')],
+                # [sg.Radio('Compare drivers?', enable_events=True, visible=False, key='-COMPARE-')],
+                [sg.OptionMenu(Lists.SessionSlice.list, default_value=f'Evalutate Full Session?', disabled=True, expand_x=True, visible=False, key='-SLICE-')],
+                [sg.Button('Select Driver Data Points', visible=False, disabled=True, expand_x=True, key='-LOADVARS-')],
                 [sg.OptionMenu(Lists.DriverVars.list, default_value='.Y Variable...', expand_x=True, visible=False, key='-DRIVERYVAR-')],
                 [sg.OptionMenu(Lists.DriverVars.list, default_value='.X Variable...', expand_x=True, visible=False, key='-DRIVERXVAR-')],
                 [sg.Button('Confirm All', visible=False, expand_x=True, key='-CONFIRM ALL-')],
@@ -206,8 +207,11 @@ def main():
                 Lists.GrandPrix = Lists.make('Grand Prix', list(fastf1.get_event_schedule(int(values['-YEAR-']))['EventName']))
                 window.Element('-GP-').update(values=Lists.GrandPrix.list, visible=True)
                 window.Element('-SESSION-').update(visible=True)
-                window.Element('-LOADDRIVERS-').update(visible=True)
+                window.Element('-LOADDRIVERS-').update(visible=True, disabled=True)
                 window.Element('-DRIVER-').update(visible=False)
+                window.Element('-SLICE-').update(visible=False, disabled=True)
+                window.Element('-LOADVARS-').update(visible=False, disabled=True)
+                window.Element('-PLOT-').update(disabled=True)
                 window.refresh()
                 window.read(timeout=100)
 
@@ -222,13 +226,15 @@ def main():
                 Lists.Drivers = Lists.make('Drivers', list(drivers))
                 window.Element('-DRIVER-').update(values=Lists.Drivers.list)
                 window.Element('-DRIVER-').update(visible=True)
-                window.Element('-SLICE-').update(visible=True)
-                window.Element('-LOADVARS-').update(visible=True)
+                window.Element('-SLICE-').update(visible=True, disabled=True)
+                window.Element('-LOADVARS-').update(visible=True, disabled=True)
+                window.Element('-PLOT-').update(disabled=True)
                 window.refresh()
                 window.read(timeout=100)
 
             def LoadDriverVars():
                 print(f"[LOG] Load variables for {values['-DRIVER-'][0]}")
+                window.Element('-PLOT-').update(disabled=True)
                 global driver
                 id = values['-DRIVER-'][0]
                 driver = DriverIQ(id)
@@ -350,6 +356,18 @@ def main():
         # Load GPs
         elif event == 'Load Season':
             ButtonFunc.LoadGPList()
+
+        #Selected GP, enable Load Drivers List
+        elif event == '-GP-':
+            window.Element('-LOADDRIVERS-').update(disabled=False)
+            window.Element('-PLOT-').update(disabled=False)
+
+        #Selected Driver, enable Load VARS List
+        elif event == '-DRIVER-':
+            window.Element('-SLICE-').update(disabled=False)
+            window.Element('-LOADVARS-').update(disabled=False)
+            window.Element('-PLOT-').update(disabled=False)
+
 
         # Load Drivers        
         elif event == '-LOADDRIVERS-':
