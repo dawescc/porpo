@@ -58,7 +58,7 @@ class Session:
     # Session.load(eventIQ)
     def load(self):
         CacheDir.Set(CacheDir.default)
-        fastf1.Cache.enable_cache(CacheDir.default)
+        fastf1.Cache.enable_cache(CacheDir.default, force_renew=True)
         session = fastf1.get_session(self.year, self.gp, self.ses)
         session.load()
         self.session = session
