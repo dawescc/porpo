@@ -42,9 +42,6 @@ class ExportDir:
 # Define Year List for GPs (2018+ Available)
 ###############################################
 
-##############################
-
-
 class Session:
 
     # Create Session Object
