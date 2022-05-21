@@ -30,6 +30,7 @@
   - [General Information](#general-information)
   - [Getting Started](#getting-started)
   - [Usage](#usage)
+  - [Exporting the Plot](#exporting-the-plot)
     - [Specific Lap](#specific-lap)
     - [Fastest Lap](#fastest-lap)
     - [Session](#session)
@@ -42,10 +43,14 @@ Porpo is a python application that utilizes the [FastF1](https://github.com/theO
 
 *Note*: [Python3](https://www.python.org/downloads/) (v.3.8 or greater) is required.
 
+<p align="center">
+  <img src = src/examples/images/screenshots/porpo.png />
+</p>
+
 ## Getting Started
 Currently, there is not a *simple* way to run the program. However, getting it up and running is very easy, regardless of platform. 
 
-Install Dependencies:
+In a virtual enviornment, install dependencies:
 
 ```
 pip3 install fastf1
@@ -56,66 +61,43 @@ There are 2 methods of execution:
 
 `/scripts/gui.py` to begin using the application with a GUI. (Recommended)
 
-`/scripts/main.py` to begin using the application in CLI.
+`/scripts/main.py` to begin using the application in CLI. (*Depreciated*)
 
 ## Usage
 
-Porpo allows you to individually set all the variables for evaluation. 
+
+**Porpo allows you to individually set all the variables for evaluation.** 
 
 You start by selecting the year the Grand Prix took place.
 
-<p align="center">
-  <img width="40%" height="40%" src="/src/examples/images/screenshots/year_window.png"/>
-</>
+Load the list of GPs for that season. Load the list again any time you want to evaluate a different season.
 
-Then select the Grand Prix you want.
+Select the Grand Prix you want, and select the session from the Grand Prix.
 
-<p align="center">
-  <img width="50%" height="50%" src="/src/examples/images/screenshots/gp_window.png"/>
-</>
+*Note*: Sprint not available for every Grand Prix.
 
-Then select the session from the Grand Prix.
+Now load the list of drivers for your Grand Prix and session. Load the list again any time you want to evaluate a different Grand Prix.
 
-*Note*: No GP has all sessions.
+Decide if you're going to evaluate the full session, or a specific lap, or easily select the fastest lap set by your chosen driver.
 
-<p align="center">
-  <img width="40%" height="40%" src="/src/examples/images/screenshots/sestype_window.png"/>
-</>
+*Note:* Check the [FastF1 documentation](https://theoehrly.github.io/Fast-F1/) to see the data values available for each option.
 
-Next, select the driver you'd like to evaluate.
+The last step is to select which variables you want displayed on the axes (X and Y). Be aware that although you can select any available data as either variable, some combinations may not perform as expected - or at all.
 
-<p align="center">
-  <img width="40%" height="40%" src="/src/examples/images/screenshots/driver_window.png"/>
-</>
+Click 'Confirm All' to update selected values, and 'Analyse' to see your visualization.
 
-Now decide if you're going to evaluate the full session, or a specific lap, or easily select the fastest lap set by your chosen driver.
+## Exporting the Plot
 
-Check the [FastF1 documentation](https://theoehrly.github.io/Fast-F1/) to see everything that is available for each option.
+The plot will show up in a new window, and automatically save to your export directory when the window is closed.
 
-<p align="center">
-  <img width="40%" height="40%" src="/src/examples/images/screenshots/lap_window.png"/>
-</>
+If you're unsure where your export directory is, the default relative path is:
 
-The last step is to select which variables you want displayed on the axes (X and Y).
-
-Be aware that although you can select any available data as either variable, some combinations may not perform as expected - or at all.
-
-<p align="center">
-  <img width="40%" height="40%" src="/src/examples/images/screenshots/var_window.png"/>
-</>
-
-The plot will show up in a new window, and automatically save to your export directory when the graph is closed.
-
-If you're unsure where your export directory is, the default is:
   ```
   ~/Documents/F1 Data Analysis/Export/
   ```
 &nbsp;
 
-To change this directory, edit the `save_path` variable in `scripts/gui.py`
-```
-  save_path = '~/Documents/F1 Data Analysis/Export/'
-```
+To change this directory, edit the export path in the preferences window. For now, if you want a different directory, you need to do this every time you open the app or it will reset to default.
 
 ### Specific Lap
 You can easily pull and visualize data for a single lap of a session.
