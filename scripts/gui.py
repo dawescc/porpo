@@ -95,6 +95,7 @@ class Lists:
     Drivers = make('Drivers', ['Driver 1', 'Driver 2', 'Driver 3'])
     SessionSlice = make('SessionSlice', ['Full Session', 'Specific Lap', 'Fastest'])
     DriverVars = make('DriverVars', ['Var 1', 'Var 2', 'Var 3'])
+    Laps = make('Laps', [1, 2, 3, 4, 5])
 
 ###############################################
 # Define Window
@@ -105,7 +106,7 @@ def make_window():
 
     menu_def = [[('&porpo'), ['&About', ('&Preferences'), ['&Set Cache Directory', 'Set Export Directory'], '&GitHub', 'E&xit']]]
     
-    header_layout = [[sg.Image(source='~/src/common/images/icon_small.png', size=(120,60), expand_x=True, expand_y=True)],]
+    header_layout = [[sg.Image(source='src/common/images/icon_small.png', size=(120, 60), expand_x=True, expand_y=True)],]
 
     layout = [[sg.Menubar(menu_def, key='-MENU-')],
                 [sg.Frame('', header_layout, size=(250,75), key='-HEAD-')],
@@ -236,6 +237,7 @@ def main():
                 fullname = driver.fullname
                 team = driver.team
                 team_color = driver.team_color
+                global plot_title
                 print(f'Getting data for {fullname}...\n')
 
                 if values['-SLICE-'] == 'Fastest':
@@ -243,15 +245,37 @@ def main():
                     fastest_lap = f_lap.get_telemetry()
                     driver.data = fastest_lap
                     var_list = list(driver.data)
+                    plot_title = f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n Fastest Lap "
 
                 elif values['-SLICE-'] == 'Specific Lap':
-                    #driver.data = None
-                    # var_list = list(driver.data)
-                    pass
+                    lap_min, lap_max = int(ses['LapNumber'].min()), int(ses['LapNumber'].max())
+                    lap_range = range(lap_min, (lap_max + 1))
+                    Lists.Laps = Lists.make('Laps', (list(lap_range)))
+                    lap_layout = [  [sg.Text('Select Lap Number')], 
+                                    [sg.Spin(Lists.Laps.list, expand_x=True, key='-LAPNUM-')],
+                                    [sg.Button('Ok', expand_x=True)],
+                                ]
+                    lap_win = sg.Window('Lap Selection', lap_layout, keep_on_top=True, modal=True)
+                    while True:
+                        lap_event, lap_value = lap_win.read(timeout=100)
+                        if lap_event == sg.WIN_CLOSED:
+                            lap_win.close()
+                        if lap_event == 'Ok':
+                            num = lap_value['-LAPNUM-']
+                            lap_n = ses[ses['LapNumber'] == int(num)]
+                            lap_n_tel = lap_n.get_telemetry()
+                            driver.data = lap_n_tel
+                            var_list = list(driver.data)
+                            print(f"Getting lap {num} data...\n")
+                            plot_title = f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n Lap {num} "
+                            lap_win.close()
+                            break
+                    
 
                 else:
                     driver.data = ses
                     var_list = list(driver.data)
+                    plot_title = f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n Full Session '{values['-SESSION-']}' "
                 
                 var_list = list(driver.data)
                 Lists.DriverVars = Lists.make('DriverVars', var_list)
@@ -272,7 +296,8 @@ def main():
 
             def Analyse():
                 print(f"[LOG] Plotting variables for {values['-DRIVER-']}")
-
+                plot_vars = f"{values['-DRIVERYVAR-']} Analysis"
+                title = plot_title + plot_vars
                 driver_yvar = driver.data[f"{values['-DRIVERYVAR-']}"]
                 driver_xvar = driver.data[f"{values['-DRIVERXVAR-']}"]
                 x = driver_xvar
@@ -289,7 +314,7 @@ def main():
                 plot1.minorticks_on()
                 plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
                 plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
-                plt.suptitle(f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n{values['-DRIVERYVAR-']} Analysis")
+                plt.suptitle(f"{title}")
                 plt.savefig(f"{ExportDir.default}/Plot.png", dpi=300)
                 plt.show()
 
