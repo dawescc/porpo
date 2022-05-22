@@ -85,6 +85,10 @@ class DriverComp:
         self.info = [eventIQ.session.get_driver(id) for id in list]
         self.ses = eventIQ.session.laps.pick_drivers(list)
         self.data = None
+        self.name = [n for n in list if not str(n).isdigit()]
+        self.number = [str(n) for n in list if str(n).isdigit()]
+        drv, num = self['Driver'], self['DriverNumber']
+        print([[drv],[num]])
         #self.fullname = [{self.info[x]['FullName']} for x in self.info]
         #self.team = [{self.info[x]['TeamName']} for x in self.info]
         #self.team_color = fastf1.plotting.team_color(self.team)
@@ -103,7 +107,7 @@ class Lists:
     GrandPrix = make('GrandPrix', list(fastf1.get_event_schedule(Years.list[-1])['EventName']))
     Sessions = make('Sessions', ['FP1', 'FP2', 'FP3', 'S', 'Q', 'R'])
     Drivers = make('Drivers', ['Driver 1', 'Driver 2', 'Driver 3'])
-    DriversComp = make('Drivers', [])
+    DriversComp = make('DriversComp', [])
     SessionSlice = make('SessionSlice', ['Full Session', 'Specific Lap', 'Fastest'])
     DriverVars = make('DriverVars', ['Var 1', 'Var 2', 'Var 3'])
     Laps = make('Laps', [1, 2, 3, 4, 5])
@@ -310,6 +314,9 @@ def main():
                 window.refresh()
                 window.read(timeout=100)
                 
+            def LoadDriverComp(list):
+                global drivercomp
+                drivercomp = DriverComp(list)
 
             def Confirm():
                 window.Element('-PLOT-').update(disabled=False)
@@ -402,8 +409,7 @@ def main():
                 ButtonFunc.LoadDriverVars(values['-DRIVER-'][0])
             else:
                 Lists.DriversComp.list = values['-DRIVER-']
-                drivers_comp_num = range(len(Lists.DriversComp.list))
-                [ButtonFunc.LoadDriverVars(Lists.DriversComp.list[x]) for x in drivers_comp_num]
+                ButtonFunc.LoadDriverComp(Lists.DriversComp.list)
 
         # Confirm All
         elif event == '-CONFIRM ALL-':
@@ -415,7 +421,7 @@ def main():
                 ButtonFunc.Analyse(driver)
                 plt.show()
             else:
-                [ButtonFunc.Analyse(driver[x]) for x in drivers_comp_num]
+                [ButtonFunc.Analyse(driver) for x in drivers_comp_num]
                 plt.show()
 
     window.close()
