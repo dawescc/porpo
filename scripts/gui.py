@@ -42,6 +42,11 @@ class ExportDir:
 # Define Year List for GPs (2018+ Available)
 ###############################################
 
+##############################
+
+import fastf1
+from fastf1 import plotting
+
 class Session:
 
     # Create Session Object
@@ -55,7 +60,7 @@ class Session:
     # Session.load(eventIQ)
     def load(self):
         CacheDir.Set(CacheDir.default)
-        fastf1.Cache.enable_cache(CacheDir.default, force_renew=True)
+        fastf1.Cache.enable_cache(CacheDir.default)
         session = fastf1.get_session(self.year, self.gp, self.ses)
         session.load()
         self.session = session
@@ -100,7 +105,7 @@ def make_window():
     sg.theme('Reddit')
 
     menu_def = [[('&porpo'), ['&About', ('&Preferences'), ['&Set Cache Directory', 'Set Export Directory'], '&GitHub', 'E&xit']]]
-
+    
     header_layout = [[sg.Image(source='src/common/images/icon_small.png', size=(120, 60), expand_x=True, expand_y=True)],]
 
     layout = [[sg.Menubar(menu_def, key='-MENU-')],
@@ -109,20 +114,21 @@ def make_window():
                 [sg.Button('Load Season', expand_x=True)],
                 [sg.Listbox(Lists.GrandPrix.list, enable_events=True, expand_x=True, size=(None,10), select_mode='single', horizontal_scroll=False, visible=False, pad=(7,7,7,7), key='-GP-')],
                 [sg.OptionMenu(Lists.Sessions.list, default_value=f'Select Session...', expand_x=True, visible=False, key='-SESSION-')],
-                [sg.Button('Load Drivers for Session', visible=False, expand_x=True, key='-LOADDRIVERS-')],
+                [sg.Button('Load Drivers for Session', visible=False, disabled=True, expand_x=True, key='-LOADDRIVERS-')],
                 [sg.Listbox(Lists.Drivers.list, enable_events=True, expand_x=True, size=(None,10), select_mode='single', horizontal_scroll=False, visible=False, pad=(7,7,7,7), key='-DRIVER-')],
-                [sg.OptionMenu(Lists.SessionSlice.list, default_value=f'Evalutate Full Session?', expand_x=True, visible=False, key='-SLICE-')],
-                [sg.Button('Select Driver Data Points', visible=False, expand_x=True, key='-LOADVARS-')],
+                [sg.Checkbox('Compare drivers?', enable_events=True, visible=False, key='-COMPARE-')],
+                [sg.OptionMenu(Lists.SessionSlice.list, default_value=f'Evalutate Full Session?', disabled=True, expand_x=True, visible=False, key='-SLICE-')],
+                [sg.Button('Select Data Points', visible=False, disabled=True, expand_x=True, key='-LOADVARS-')],
                 [sg.OptionMenu(Lists.DriverVars.list, default_value='.Y Variable...', expand_x=True, visible=False, key='-DRIVERYVAR-')],
                 [sg.OptionMenu(Lists.DriverVars.list, default_value='.X Variable...', expand_x=True, visible=False, key='-DRIVERXVAR-')],
                 [sg.Button('Confirm All', visible=False, expand_x=True, key='-CONFIRM ALL-')],
-                [sg.Button('Analyse', visible=False, disabled=True, expand_x=True, key='-PLOT-')],
+                [sg.Button('Analyse', visible=False, disabled=True, expand_x=True, key='-PLOT-')], 
                 ]
 
     window = sg.Window('porpo', layout, margins=(0, 0), finalize=True)
 
     window.set_min_size(window.size)
-
+    
     return window
 
 ###############################################
@@ -135,11 +141,11 @@ def main():
     # Window Open, Begin Event Loop
     while True:
         event, values = window.read(timeout=100)
-
+        
 ###############################################
 # Define what happens when a button is pushed
 ###############################################
-
+        
         class ButtonFunc:
 
             #About
@@ -180,7 +186,7 @@ def main():
                 else:
                     CacheDir.Set(str(path))
                     print(f'[LOG] set CACHE to {path}')
-
+            
             #Set Export Directory
             def Pref_SetExport():
                 path = sg.popup_get_folder('Choose your folder', no_window=True, default_path=ExportDir.default, initial_folder=ExportDir.default)
@@ -201,8 +207,11 @@ def main():
                 Lists.GrandPrix = Lists.make('Grand Prix', list(fastf1.get_event_schedule(int(values['-YEAR-']))['EventName']))
                 window.Element('-GP-').update(values=Lists.GrandPrix.list, visible=True)
                 window.Element('-SESSION-').update(visible=True)
-                window.Element('-LOADDRIVERS-').update(visible=True)
+                window.Element('-LOADDRIVERS-').update(visible=True, disabled=True)
                 window.Element('-DRIVER-').update(visible=False)
+                window.Element('-SLICE-').update(visible=False, disabled=True)
+                window.Element('-LOADVARS-').update(visible=False, disabled=True)
+                window.Element('-PLOT-').update(disabled=True)
                 window.refresh()
                 window.read(timeout=100)
 
@@ -217,13 +226,16 @@ def main():
                 Lists.Drivers = Lists.make('Drivers', list(drivers))
                 window.Element('-DRIVER-').update(values=Lists.Drivers.list)
                 window.Element('-DRIVER-').update(visible=True)
-                window.Element('-SLICE-').update(visible=True)
-                window.Element('-LOADVARS-').update(visible=True)
+                window.Element('-COMPARE-').update(visible=True)
+                window.Element('-SLICE-').update(visible=True, disabled=True)
+                window.Element('-LOADVARS-').update(visible=True, disabled=True)
+                window.Element('-PLOT-').update(disabled=True)
                 window.refresh()
                 window.read(timeout=100)
 
             def LoadDriverVars():
                 print(f"[LOG] Load variables for {values['-DRIVER-'][0]}")
+                window.Element('-PLOT-').update(disabled=True)
                 global driver
                 id = values['-DRIVER-'][0]
                 driver = DriverIQ(id)
@@ -246,7 +258,7 @@ def main():
                     lap_min, lap_max = int(ses['LapNumber'].min()), int(ses['LapNumber'].max())
                     lap_range = range(lap_min, (lap_max + 1))
                     Lists.Laps = Lists.make('Laps', (list(lap_range)))
-                    lap_layout = [  [sg.Text('Select Lap Number')],
+                    lap_layout = [  [sg.Text('Select Lap Number')], 
                                     [sg.Spin(Lists.Laps.list, expand_x=True, key='-LAPNUM-')],
                                     [sg.Button('Ok', expand_x=True)],
                                 ]
@@ -265,13 +277,13 @@ def main():
                             plot_title = f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n Lap {num} "
                             lap_win.close()
                             break
-
+                    
 
                 else:
                     driver.data = ses
                     var_list = list(driver.data)
                     plot_title = f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n Full Session '{values['-SESSION-']}' "
-
+                
                 var_list = list(driver.data)
                 Lists.DriverVars = Lists.make('DriverVars', var_list)
                 window.Element('-DRIVERXVAR-').update(values=Lists.DriverVars.list)
@@ -282,7 +294,7 @@ def main():
                 window.Element('-PLOT-').update(visible=True)
                 window.refresh()
                 window.read(timeout=100)
-
+                
 
             def Confirm():
                 window.Element('-PLOT-').update(disabled=False)
@@ -298,7 +310,7 @@ def main():
                 x = driver_xvar
                 y = driver_yvar
                 xmin, xmax = x.min(), x.max()
-
+            
                 fastf1.plotting.setup_mpl(mpl_timedelta_support=True, color_scheme='fastf1', misc_mpl_mods=True)
                 fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
                 plot1 = fig.subplots()
@@ -346,11 +358,30 @@ def main():
         elif event == 'Load Season':
             ButtonFunc.LoadGPList()
 
-        # Load Drivers
+        # Selected GP, enable Load Drivers List
+        elif event == '-GP-':
+            window.Element('-LOADDRIVERS-').update(disabled=False)
+            window.Element('-PLOT-').update(disabled=False)
+            window.refresh()
+
+        #S elected Driver, enable Load VARS List
+        elif event == '-DRIVER-':
+            window.Element('-SLICE-').update(disabled=False)
+            window.Element('-LOADVARS-').update(disabled=False)
+            window.Element('-PLOT-').update(disabled=False)
+            window.refresh()
+
+        # Selected Compare Drivers, enable multi select
+        elif event == '-COMPARE-':
+            window.Element('-DRIVER-').update(select_mode='multiple')
+            window.refresh()
+            window.read(timeout=100)
+
+        # Load Drivers        
         elif event == '-LOADDRIVERS-':
             ButtonFunc.LoadDriverList()
 
-        # Load Drivers
+        # Load Drivers        
         elif event == '-LOADVARS-':
             ButtonFunc.LoadDriverVars()
 
@@ -358,7 +389,7 @@ def main():
         elif event == '-CONFIRM ALL-':
             ButtonFunc.Confirm()
 
-        # Plot
+        # Plot        
         elif event == '-PLOT-':
             ButtonFunc.Analyse()
 
