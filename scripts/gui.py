@@ -1,4 +1,5 @@
 import datetime
+from lib2to3.pgen2.driver import Driver
 import os
 import webbrowser
 
@@ -84,9 +85,9 @@ class DriverComp:
         self.info = [eventIQ.session.get_driver(id) for id in list]
         self.ses = eventIQ.session.laps.pick_drivers(list)
         self.data = None
-        self.fullname = [self.info[x]['FullName'] for x in self.info]
-        self.team = [self.info[x]['TeamName'] for x in self.info]
-        self.team_color = [fastf1.plotting.team_color(self.team[x]) for x in self.info]
+        #self.fullname = [{self.info[x]['FullName']} for x in self.info]
+        #self.team = [{self.info[x]['TeamName']} for x in self.info]
+        #self.team_color = fastf1.plotting.team_color(self.team)
 
 class Lists:
 
@@ -249,30 +250,17 @@ def main():
 
 
             def LoadDriverVars(id):
-
-                if values['-COMPARE-'] == True:
-                    global driverscompare
-                    driverscompare = DriverComp(id)
-                    info = driverscompare.info
-                    ses = driverscompare.ses
-                    fullname = driverscompare.fullname
-                    team = driverscompare.team
-                    team_color = driverscompare.team_color
-                    global plot_title
-                    print(f'Getting data for {len(driverscompare)} drivers...\n')
-
-                if values['-COMPARE-'] == False:
-                    global driver
-                    print(f"[LOG] Load variables for {id}")
-                    window.Element('-PLOT-').update(disabled=True)
-                    driver = DriverIQ(id)
-                    info = driver.info
-                    ses = driver.ses
-                    fullname = driver.fullname
-                    team = driver.team
-                    team_color = driver.team_color
-                    global plot_title
-                    print(f'Getting data for {fullname}...\n')
+                global driver
+                print(f"[LOG] Load variables for {id}")
+                window.Element('-PLOT-').update(disabled=True)
+                driver = DriverIQ(id)
+                info = driver.info
+                ses = driver.ses
+                fullname = driver.fullname
+                team = driver.team
+                team_color = driver.team_color
+                global plot_title
+                print(f'Getting data for {fullname}...\n')
 
                 if values['-SLICE-'] == 'Fastest':
                     f_lap = ses.pick_fastest()
@@ -328,8 +316,8 @@ def main():
                 window.refresh()
                 window.read(timeout=100)
 
-            def Analyse():
-                print(f"[LOG] Plotting variables for {values['-DRIVER-']}")
+            def Analyse(driver):
+                print(f"[LOG] Plotting variables for {driver.fullname}")
                 plot_vars = f"{values['-DRIVERYVAR-']} Analysis"
                 title = plot_title + plot_vars
                 driver_yvar = driver.data[f"{values['-DRIVERYVAR-']}"]
@@ -349,8 +337,8 @@ def main():
                 plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
                 plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
                 plt.suptitle(f"{title}")
-                plt.savefig(f"{ExportDir.default}/Plot.png", dpi=300)
-                plt.show()
+                #plt.savefig(f"{ExportDir.default}/Plot.png", dpi=300)
+                #plt.show()
 
 
 ###############################################
@@ -413,7 +401,9 @@ def main():
             if values['-COMPARE-'] == False:
                 ButtonFunc.LoadDriverVars(values['-DRIVER-'][0])
             else:
-                ButtonFunc.LoadDriverVars(values['-DRIVER-'])
+                Lists.DriversComp.list = values['-DRIVER-']
+                drivers_comp_num = range(len(Lists.DriversComp.list))
+                [ButtonFunc.LoadDriverVars(Lists.DriversComp.list[x]) for x in drivers_comp_num]
 
         # Confirm All
         elif event == '-CONFIRM ALL-':
@@ -421,7 +411,12 @@ def main():
 
         # Plot        
         elif event == '-PLOT-':
-            ButtonFunc.Analyse()
+            if values['-COMPARE-'] == False:
+                ButtonFunc.Analyse(driver)
+                plt.show()
+            else:
+                [ButtonFunc.Analyse(driver[x]) for x in drivers_comp_num]
+                plt.show()
 
     window.close()
     exit(0)
