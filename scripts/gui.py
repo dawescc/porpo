@@ -334,26 +334,33 @@ def main():
                 window.read(timeout=100)
 
             def Analyse():
-
                 if values['-COMPARE-'] == True:
-                    print(f"[LOG] Plotting variables for multiple drivers...")
-                    fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
-                    plot1 = fig.subplots()
-                    for driver in Lists.DriversComp.list:
-                        data = eventIQ.session.laps.pick_driver(driver).pick_fastest().get_car_data().add_distance()
-                        info = eventIQ.session.get_driver(driver)
-                        team = info['TeamName']
-                        team_color = fastf1.plotting.team_color(team)
-                        plot1.plot(data[values['-DRIVERXVAR-']], data[values['-DRIVERYVAR-']], color=team_color)
-                        plot1.set_xlabel(f"{values['-DRIVERXVAR-']}")
-                        plot1.set_ylabel(f"{values['-DRIVERYVAR-']}")
-                        plot1.set_xlim(data[values['-DRIVERXVAR-']].min(), data[values['-DRIVERXVAR-']].max())
-                        plot1.minorticks_on()
-                        plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
-                        plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
-                        plt.suptitle(f"Fastest Lap Comparison \n ")
-                    plt.show()
-            
+                    if values['-SLICE-'] == 'Fastest':
+                        print(f"[LOG] Plotting variables for multiple drivers...")
+                        fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
+                        plot1 = fig.subplots()
+                        for driver in Lists.DriversComp.list:
+                            data = eventIQ.session.laps.pick_driver(driver).pick_fastest().get_car_data().add_distance()
+                            info = eventIQ.session.get_driver(driver)
+                            team = info['TeamName']
+                            team_color = fastf1.plotting.team_color(team)
+                            plot1.plot(data[values['-DRIVERXVAR-']], data[values['-DRIVERYVAR-']], color=team_color)
+                            plot1.set_xlabel(f"{values['-DRIVERXVAR-']}")
+                            plot1.set_ylabel(f"{values['-DRIVERYVAR-']}")
+                            plot1.set_xlim(data[values['-DRIVERXVAR-']].min(), data[values['-DRIVERXVAR-']].max())
+                            plot1.minorticks_on()
+                            plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
+                            plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
+                            plt.suptitle(f"Fastest Lap Comparison \n ")
+                        plt.show()
+
+                    if values['-SLICE-'] == 'Specific Lap':
+                        pass
+
+                    else:
+                        pass
+
+                    
                 else:
                     print(f"[LOG] Plotting variables for {driver.fullname}")
                     plot_vars = f"{values['-DRIVERYVAR-']} Analysis"
