@@ -1,4 +1,5 @@
 import datetime
+from lib2to3.pgen2.driver import Driver
 import os
 import webbrowser
 
@@ -7,6 +8,8 @@ import matplotlib.pylab as plt
 import PySimpleGUI as sg
 from fastf1 import plotting
 from pandas import DataFrame
+
+fastf1.plotting.setup_mpl(mpl_timedelta_support=True, color_scheme='fastf1', misc_mpl_mods=True)
 
 ###############################################
 # Directory Functions
@@ -78,6 +81,19 @@ class DriverIQ:
         self.team = self.info['TeamName']
         self.team_color = fastf1.plotting.team_color(self.team)
 
+class DriverComp:
+    # Load Driver Data for a List of Drivers
+    def __init__(self, list):
+        self.info = [eventIQ.session.get_driver(id) for id in list]
+        self.ses = eventIQ.session.laps.pick_drivers(list)
+        self.data = None
+        self.name = [n for n in list if not str(n).isdigit()]
+        self.number = [str(n) for n in list if str(n).isdigit()]
+        drv, num = self['Driver'], self['DriverNumber']
+        print([[drv],[num]])
+        #self.fullname = [{self.info[x]['FullName']} for x in self.info]
+        #self.team = [{self.info[x]['TeamName']} for x in self.info]
+        #self.team_color = fastf1.plotting.team_color(self.team)
 
 class Lists:
 
@@ -93,6 +109,7 @@ class Lists:
     GrandPrix = make('GrandPrix', list(fastf1.get_event_schedule(Years.list[-1])['EventName']))
     Sessions = make('Sessions', ['FP1', 'FP2', 'FP3', 'S', 'Q', 'R'])
     Drivers = make('Drivers', ['Driver 1', 'Driver 2', 'Driver 3'])
+    DriversComp = make('DriversComp', [])
     SessionSlice = make('SessionSlice', ['Full Session', 'Specific Lap', 'Fastest'])
     DriverVars = make('DriverVars', ['Var 1', 'Var 2', 'Var 3'])
     Laps = make('Laps', [1, 2, 3, 4, 5])
@@ -211,7 +228,11 @@ def main():
                 window.Element('-DRIVER-').update(visible=False)
                 window.Element('-SLICE-').update(visible=False, disabled=True)
                 window.Element('-LOADVARS-').update(visible=False, disabled=True)
-                window.Element('-PLOT-').update(disabled=True)
+                window.Element('-PLOT-').update(disabled=True, visible=False)
+                window.Element('-DRIVERXVAR-').update(visible=False)
+                window.Element('-DRIVERYVAR-').update(visible=False)
+                window.Element('-CONFIRM ALL-').update(visible=False)
+                window.Element('-COMPARE-').update(visible=False)
                 window.refresh()
                 window.read(timeout=100)
 
@@ -233,11 +254,11 @@ def main():
                 window.refresh()
                 window.read(timeout=100)
 
-            def LoadDriverVars():
-                print(f"[LOG] Load variables for {values['-DRIVER-'][0]}")
-                window.Element('-PLOT-').update(disabled=True)
+
+            def LoadDriverVars(id):
                 global driver
-                id = values['-DRIVER-'][0]
+                print(f"[LOG] Load variables for {id}")
+                window.Element('-PLOT-').update(disabled=True)
                 driver = DriverIQ(id)
                 info = driver.info
                 ses = driver.ses
@@ -252,7 +273,7 @@ def main():
                     fastest_lap = f_lap.get_telemetry()
                     driver.data = fastest_lap
                     var_list = list(driver.data)
-                    plot_title = f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n Fastest Lap "
+                    plot_title = f"{id} - {values['-GP-'][0]}\n Fastest Lap "
 
                 elif values['-SLICE-'] == 'Specific Lap':
                     lap_min, lap_max = int(ses['LapNumber'].min()), int(ses['LapNumber'].max())
@@ -274,11 +295,10 @@ def main():
                             driver.data = lap_n_tel
                             var_list = list(driver.data)
                             print(f"Getting lap {num} data...\n")
-                            plot_title = f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n Lap {num} "
+                            plot_title = f"{id} - {values['-GP-'][0]}\n Lap {num} "
                             lap_win.close()
                             break
                     
-
                 else:
                     driver.data = ses
                     var_list = list(driver.data)
@@ -295,6 +315,25 @@ def main():
                 window.refresh()
                 window.read(timeout=100)
                 
+            def LoadDriverComp(comp_list):
+                for driver in comp_list:
+                    global data
+                    global team_color
+                    data = eventIQ.session.laps.pick_driver(driver).pick_fastest().get_car_data().add_distance()
+                    info = eventIQ.session.get_driver(driver)
+                    team = info['TeamName']
+                    team_color = fastf1.plotting.team_color(team)
+                
+                var_list = list(data)
+                Lists.DriverVars = Lists.make('DriverVars', var_list)
+                window.Element('-DRIVERXVAR-').update(values=Lists.DriverVars.list)
+                window.Element('-DRIVERYVAR-').update(values=Lists.DriverVars.list)
+                window.Element('-DRIVERXVAR-').update(visible=True)
+                window.Element('-DRIVERYVAR-').update(visible=True)
+                window.Element('-CONFIRM ALL-').update(visible=True)
+                window.Element('-PLOT-').update(visible=True)
+                window.refresh()
+                window.read(timeout=100)
 
             def Confirm():
                 window.Element('-PLOT-').update(disabled=False)
@@ -302,25 +341,40 @@ def main():
                 window.read(timeout=100)
 
             def Analyse():
-                print(f"[LOG] Plotting variables for {values['-DRIVER-']}")
-                plot_vars = f"{values['-DRIVERYVAR-']} Analysis"
-                title = plot_title + plot_vars
-                driver_yvar = driver.data[f"{values['-DRIVERYVAR-']}"]
-                driver_xvar = driver.data[f"{values['-DRIVERXVAR-']}"]
-                x = driver_xvar
-                y = driver_yvar
-                xmin, xmax = x.min(), x.max()
+
+                if values['-COMPARE-'] == True:
+                    print(f"[LOG] Plotting variables for multiple drivers...")
+                    fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
+                    plot1 = fig.subplots()
+                    plot1.plot(data[f"{values['-DRIVERXVAR-']}"], data[f"{values['-DRIVERYVAR-']}"], color=team_color)
+                    plot1.set_xlabel('Distance in m')
+                    plot1.set_ylabel('Speed in km/h')
+                    plot1.set_xlim(data['Distance'].min(), data['Distance'].max())
+                    plot1.minorticks_on()
+                    plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
+                    plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
+                    title = f"Fastest Lap Comparison\n"
             
-                fastf1.plotting.setup_mpl(mpl_timedelta_support=True, color_scheme='fastf1', misc_mpl_mods=True)
-                fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
-                plot1 = fig.subplots()
-                plot1.plot(x, y, color=driver.team_color, label=f"{y.name}")
-                plot1.set_ylabel(f"{y.name}")
-                plot1.set_xlabel(f"{x.name}")
-                plot1.set_xlim(xmin, xmax)
-                plot1.minorticks_on()
-                plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
-                plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
+                else:
+                    print(f"[LOG] Plotting variables for {driver.fullname}")
+                    plot_vars = f"{values['-DRIVERYVAR-']} Analysis"
+                    title = plot_title + plot_vars
+                    driver_yvar = driver.data[f"{values['-DRIVERYVAR-']}"]
+                    driver_xvar = driver.data[f"{values['-DRIVERXVAR-']}"]
+                    x = driver_xvar
+                    y = driver_yvar
+                    xmin, xmax = x.min(), x.max()
+                
+                    fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
+                    plot1 = fig.subplots()
+                    plot1.plot(x, y, color=driver.team_color, label=f"{y.name}")
+                    plot1.set_ylabel(f"{y.name}")
+                    plot1.set_xlabel(f"{x.name}")
+                    plot1.set_xlim(xmin, xmax)
+                    plot1.minorticks_on()
+                    plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
+                    plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
+                
                 plt.suptitle(f"{title}")
                 plt.savefig(f"{ExportDir.default}/Plot.png", dpi=300)
                 plt.show()
@@ -379,11 +433,15 @@ def main():
 
         # Load Drivers        
         elif event == '-LOADDRIVERS-':
-            ButtonFunc.LoadDriverList()
+                ButtonFunc.LoadDriverList()
 
-        # Load Drivers        
+        # Load Driver VARSs        
         elif event == '-LOADVARS-':
-            ButtonFunc.LoadDriverVars()
+            if values['-COMPARE-'] == False:
+                ButtonFunc.LoadDriverVars(values['-DRIVER-'][0])
+            else:
+                Lists.DriversComp.list = values['-DRIVER-']
+                ButtonFunc.LoadDriverComp(Lists.DriversComp.list)
 
         # Confirm All
         elif event == '-CONFIRM ALL-':
@@ -391,7 +449,8 @@ def main():
 
         # Plot        
         elif event == '-PLOT-':
-            ButtonFunc.Analyse()
+                ButtonFunc.Analyse()
+                plt.show()
 
     window.close()
     exit(0)
