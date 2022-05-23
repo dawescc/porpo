@@ -297,12 +297,12 @@ def main():
                             lap_win.close()
                             break
                     
-                else:
+                elif values['-Slide-'] == 'Full Session':
                     driver.data = ses
                     var_list = list(driver.data)
                     plot_title = f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n Full Session '{values['-SESSION-']}' "
                 
-                var_list = list(driver.data)
+                
                 Lists.DriverVars = Lists.make('DriverVars', var_list)
                 window.Element('-DRIVERXVAR-').update(values=Lists.DriverVars.list)
                 window.Element('-DRIVERYVAR-').update(values=Lists.DriverVars.list)
@@ -320,7 +320,7 @@ def main():
                     var_list = list(comp_var_list)
                     Lists.DriverVars = Lists.make('DriverVars', var_list)
                 
-                if values['-SLICE-'] == 'Specific Lap':
+                elif values['-SLICE-'] == 'Specific Lap':
                     sample = values['-DRIVER-'][0]
                     ses = eventIQ.session.laps.pick_driver(sample)
                     lap_min, lap_max = int(ses['LapNumber'].min()), int(ses['LapNumber'].max())
@@ -347,7 +347,7 @@ def main():
                             lap_win.close()
                             break
 
-                else:
+                elif values['-SLICE-'] == 'Full Session':
                     sample = values['-DRIVER-'][0]
                     vars = eventIQ.session.laps.pick_driver(sample)
                     var_list = list(vars)
@@ -389,7 +389,7 @@ def main():
                             plt.suptitle(f"Fastest Lap Comparison \n ")
                         plt.show()
 
-                    if values['-SLICE-'] == 'Specific Lap':
+                    elif values['-SLICE-'] == 'Specific Lap':
                         print(f"[LOG] Plotting variables for multiple drivers lap {comp_lap_num}...")
                         fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
                         plot1 = fig.subplots()
@@ -411,8 +411,7 @@ def main():
                             plt.suptitle(f"Lap {comp_lap_num} Comparison \n ")
                         plt.show()
                         
-
-                    else:
+                    elif values['-SLICE-'] == 'Full Session':
                         print(f"[LOG] Plotting variables for multiple drivers full session...")
                         fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
                         plot1 = fig.subplots()
@@ -431,7 +430,7 @@ def main():
                             plt.suptitle(f"Full Session '{values['-SESSION-']}' Lap Comparison \n ")
                         plt.show()
 
-                else:
+                if values['-COMPARE-'] == False:
                     print(f"[LOG] Plotting variables for {driver.fullname}")
                     plot_vars = f"{values['-DRIVERYVAR-']} Analysis"
                     title = plot_title + plot_vars
