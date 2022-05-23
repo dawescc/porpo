@@ -133,7 +133,6 @@ def make_window():
                 [sg.Button('Load Drivers for Session', visible=False, disabled=True, expand_x=True, key='-LOADDRIVERS-')],
                 [sg.Listbox(Lists.Drivers.list, enable_events=True, expand_x=True, size=(None,10), select_mode='single', horizontal_scroll=False, visible=False, pad=(7,7,7,7), key='-DRIVER-')],
                 [sg.Checkbox('Compare drivers?', enable_events=True, visible=False, key='-COMPARE-')],
-                [sg.Text('Only Fastest Lap available to compare', visible=False, text_color='red', key='-COMP WARN-')],
                 [sg.OptionMenu(Lists.SessionSlice.list, default_value=f'Evalutate Full Session?', disabled=True, expand_x=True, visible=False, key='-SLICE-')],
                 [sg.Button('Select Data Points', visible=False, disabled=True, expand_x=True, key='-LOADVARS-')],
                 [sg.OptionMenu(Lists.DriverVars.list, default_value='.Y Variable...', expand_x=True, visible=False, key='-DRIVERYVAR-')],
@@ -286,7 +285,9 @@ def main():
                     while True:
                         lap_event, lap_value = lap_win.read(timeout=100)
                         if lap_event == sg.WIN_CLOSED:
+                            lap_value['-LAPNUM-'] = 1
                             lap_win.close()
+                            break
                         if lap_event == 'Ok':
                             lap_num = lap_value['-LAPNUM-']
                             lap_n = ses[ses['LapNumber'] == int(lap_num)]
@@ -335,7 +336,9 @@ def main():
                     while True:
                         lap_event, lap_value = lap_win.read(timeout=100)
                         if lap_event == sg.WIN_CLOSED:
+                            lap_value['-LAPNUM-'] = 1
                             lap_win.close()
+                            break
                         if lap_event == 'Ok':
                             global comp_lap_num
                             comp_lap_num = lap_value['-LAPNUM-']
@@ -506,13 +509,11 @@ def main():
             if values['-COMPARE-'] == True:
                 window.Element('-DRIVER-').update(select_mode='multiple')
                 window.Element('-SLICE-').update(disabled=True)
-                window.Element('-COMP WARN-').update(visible=True)
                 window.refresh()
                 window.read(timeout=100)
             if values['-COMPARE-'] == False:
                 window.Element('-DRIVER-').update(select_mode='single')
                 window.Element('-SLICE-').update(disabled=True)
-                window.Element('-COMP WARN-').update(visible=False)
                 window.refresh()
                 window.read(timeout=100)
 
