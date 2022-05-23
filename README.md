@@ -1,9 +1,27 @@
 # Porpo
 
+## Table of Contents
+- [Porpo](#porpo)
+  - [Table of Contents](#table-of-contents)
+  - [General Information](#general-information)
+  - [Getting Started](#getting-started)
+  - [Usage](#usage)
+  - [Exporting the Plot](#exporting-the-plot)
+    - [Specific Lap](#specific-lap)
+    - [Fastest Lap](#fastest-lap)
+    - [Session](#session)
+
+------
+
+### General Information
+
+### Meet [porpo](https://github.com/dtech-auto/porpo), a data collection and visualization tool.
+
 <p align="center">
   <img src = src/common/images/icon.png />
 </p>
 
+------
 
 <p align="center">
   <img src = https://img.shields.io/github/license/dtech-auto/F1DataAnalysis />
@@ -24,44 +42,41 @@
 
 ------
 
-## Table of Contents
-- [Porpo](#porpo)
-  - [Table of Contents](#table-of-contents)
-  - [General Information](#general-information)
-  - [Getting Started](#getting-started)
-  - [Usage](#usage)
-  - [Exporting the Plot](#exporting-the-plot)
-    - [Specific Lap](#specific-lap)
-    - [Fastest Lap](#fastest-lap)
-    - [Session](#session)
-
-------
-
-## General Information
-
-Porpo is a python application that utilizes the [FastF1](https://github.com/theOehrly/Fast-F1) package to easily pull specific data and generate visualizations for analysis.
-
+</br>
+porpo is an application that utilizes the [FastF1](https://github.com/theOehrly/Fast-F1) package and is designed to easily pull telemetry data and create beautiful visualizations for analysis. It allows you to look through historic and current race data, make comparisons across specific laps, fastest laps, or full sessions. Soon, it will let you visualize the track as a map, allowing you to more clearly see where on track an event took place.
+</br>
+</br>
 *Note*: [Python3](https://www.python.org/downloads/) (v.3.8 or greater) is required.
+</br>
+</br>
 
-<p align="center">
-  <img src = src/examples/images/screenshots/porpo.png />
-</p>
+**What does porpo mean?**
 
-## Getting Started
-Currently, there is not a *simple* way to run the program. However, getting it up and running is very easy, regardless of platform. 
+'porpo' is a shortened form of the word 'porpoise'. In short, in the context of Formula 1, when a car is going "too fast", it creates so much downforce that it slams into the ground and bounces back up, only to get sucked right back down to the ground. The violent up and down movement is referred to as 'porpoising'. This same movement applies to the end point on a graph as the X value increases, and so - ***porpo***. 
+</br>
 
-In a virtual enviornment, install dependencies:
+### Getting Started
 
-```
-pip3 install fastf1
-pip3 install PySimpleGUI
-```
+For simplicity, I *highly* recommend simply downloading [Visual Code Studio](https://code.visualstudio.com/Download) and installing Python plugin and the necessary packages listed on in the `requirements.txt` file *(only the top 2 need to be downloaded, the rest come with the Python plugin)*.
 
-There are 2 methods of execution:
+After you do that, download the [porpo](https://github.com/dtech-auto/porpo/releases/tag/v1.2.2-beta.stable) source code `.zip`. Extract the contents wherever you want, but keep in mind that is your working directory, so something like `/Documents` would be better than your Desktop.
 
-`/scripts/gui.py` to begin using the application with a GUI. (Recommended)
+Now, open Visual Studio Code, and open a the folder you just extracted.
 
-`/scripts/main.py` to begin using the application in CLI. (*Depreciated*)
+Visual Studio Code should build out the file hierarchy on the left side, if something else happens, take a screenshot and let me know, we will figure it out.
+
+If you have: 
+
+1. Downloaded Visual Studio Code
+2. Installed the Python plugin and any required packages in `requirements.txt`
+3. Downloaded and extracted the source files `.zip`
+4. Properly opened the directory
+
+You should be good to go. 
+All you need to do now is hit the play button in the top right of your screen and the app should start.
+</br>
+</br>
+*Note:* Because the app downloads and filters large chunks of data to cache on the first use, the app actually gets faster the more you use it. Expect some wait times when first loading a Grand Prix.
 
 ## Usage
 
