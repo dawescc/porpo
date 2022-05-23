@@ -360,7 +360,6 @@ def main():
                     else:
                         pass
 
-                    
                 else:
                     print(f"[LOG] Plotting variables for {driver.fullname}")
                     plot_vars = f"{values['-DRIVERYVAR-']} Analysis"
