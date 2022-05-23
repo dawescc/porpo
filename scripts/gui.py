@@ -285,7 +285,9 @@ def main():
                     while True:
                         lap_event, lap_value = lap_win.read(timeout=100)
                         if lap_event == sg.WIN_CLOSED:
+                            lap_value['-LAPNUM-'] = 1
                             lap_win.close()
+                            break
                         if lap_event == 'Ok':
                             lap_num = lap_value['-LAPNUM-']
                             lap_n = ses[ses['LapNumber'] == int(lap_num)]
@@ -334,7 +336,9 @@ def main():
                     while True:
                         lap_event, lap_value = lap_win.read(timeout=100)
                         if lap_event == sg.WIN_CLOSED:
+                            lap_value['-LAPNUM-'] = 1
                             lap_win.close()
+                            break
                         if lap_event == 'Ok':
                             global comp_lap_num
                             comp_lap_num = lap_value['-LAPNUM-']
