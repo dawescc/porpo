@@ -317,11 +317,9 @@ def main():
             def LoadDriverComp():
                 if values['-SLICE-'] == 'Fastest':
                     sample = values['-DRIVER-'][0]
-                    vars = eventIQ.session.laps.pick_driver(sample).pick_fastest()
-                    f_lap_vars = vars.get_car_data().add_distance()
-                    var_list = list(f_lap_vars)
+                    vars = eventIQ.session.laps.pick_driver(sample).pick_fastest().get_car_data().add_distance()
+                    var_list = list(vars)
                     Lists.DriverVars = Lists.make('DriverVars', var_list)
-                    print(f"Getting fastest lap data...\n")
                 
                 if values['-SLICE-'] == 'Specific Lap':
                     sample = values['-DRIVER-'][0]
