@@ -299,7 +299,7 @@ def main():
                             lap_win.close()
                             break
                     
-                elif values['-Slide-'] == 'Full Session':
+                elif values['-SLICE-'] == 'Full Session':
                     driver.data = ses
                     var_list = list(driver.data)
                     plot_title = f"{values['-DRIVER-'][0]} - {values['-GP-'][0]}\n Full Session '{values['-SESSION-']}' "
@@ -415,7 +415,7 @@ def main():
                             plt.suptitle(f"Lap {comp_lap_num} Comparison \n ")
                         plt.show()
                         
-                    elif values['-SLICE-'] == 'Full Session':
+                    else:
                         print(f"[LOG] Plotting variables for multiple drivers full session...")
                         fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
                         plot1 = fig.subplots()
@@ -525,7 +525,7 @@ def main():
         elif event == '-LOADVARS-':
             if values['-COMPARE-'] == False:
                 ButtonFunc.LoadDriverVars(values['-DRIVER-'][0])
-            else:
+            if values['-COMPARE-'] == True:
                 Lists.DriversComp.list = values['-DRIVER-']
                 ButtonFunc.LoadDriverComp()
 
