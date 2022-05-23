@@ -1,7 +1,7 @@
 # Porpo
 
 <p align="center">
-  <img src = src/common/images/icon.png />
+  <img src = src/common/images/icon.png, width=75%/>
 </p>
 
 
