@@ -315,8 +315,19 @@ def main():
                 window.read(timeout=100)
                 
             def LoadDriverComp(list):
-                global drivercomp
-                drivercomp = DriverComp(list)
+                fig, ax = plt.subplots()
+                for driver in list:
+                    data = eventIQ.session.laps.pick_driver(driver).pick_fastest().get_car_data().add_distance()
+                    info = eventIQ.session.get_driver(driver)
+                    team = info['TeamName']
+                    team_color = fastf1.plotting.team_color(team)
+
+                    ax.plot(data[f"{values['-DRIVERXVAR-']}"], data[f"{values['-DRIVERYVAR-']}"], color=team_color)
+                    ax.set_xlabel('Distance in m')
+                    ax.set_ylabel('Speed in km/h')
+                    ax.set_xlim(data['Distance'].min(), data['Distance'].max())
+                    plt.suptitle(f"Fastest Lap Comparison \n "
+                            f"{eventIQ.event['EventName']} {eventIQ.event.year}")
 
             def Confirm():
                 window.Element('-PLOT-').update(disabled=False)
@@ -419,9 +430,6 @@ def main():
         elif event == '-PLOT-':
             if values['-COMPARE-'] == False:
                 ButtonFunc.Analyse(driver)
-                plt.show()
-            else:
-                [ButtonFunc.Analyse(driver) for x in drivers_comp_num]
                 plt.show()
 
     window.close()
