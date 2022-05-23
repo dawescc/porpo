@@ -269,7 +269,7 @@ def main():
 
                 if values['-SLICE-'] == 'Fastest':
                     f_lap = ses.pick_fastest()
-                    fastest_lap = f_lap.get_telemetry()
+                    fastest_lap = f_lap.get_car_data().add_distance()
                     driver.data = fastest_lap
                     var_list = list(driver.data)
                     plot_title = f"{id} - {values['-GP-'][0]}\n Fastest Lap "
@@ -288,13 +288,13 @@ def main():
                         if lap_event == sg.WIN_CLOSED:
                             lap_win.close()
                         if lap_event == 'Ok':
-                            num = lap_value['-LAPNUM-']
-                            lap_n = ses[ses['LapNumber'] == int(num)]
-                            lap_n_tel = lap_n.get_telemetry()
+                            lap_num = lap_value['-LAPNUM-']
+                            lap_n = ses[ses['LapNumber'] == int(lap_num)]
+                            lap_n_tel = lap_n.get_car_data().add_distance()
                             driver.data = lap_n_tel
                             var_list = list(driver.data)
-                            print(f"Getting lap {num} data...\n")
-                            plot_title = f"{id} - {values['-GP-'][0]}\n Lap {num} "
+                            print(f"Getting lap {lap_num} data...\n")
+                            plot_title = f"{id} - {values['-GP-'][0]}\n Lap {lap_num} "
                             lap_win.close()
                             break
                     
@@ -315,10 +315,45 @@ def main():
                 window.read(timeout=100)
                 
             def LoadDriverComp():
-                sample = values['-DRIVER-'][0]
-                vars = eventIQ.session.laps.pick_driver(sample).pick_fastest().get_car_data().add_distance()
-                var_list = list(vars)
-                Lists.DriverVars = Lists.make('DriverVars', var_list)
+                if values['-SLICE-'] == 'Fastest':
+                    sample = values['-DRIVER-'][0]
+                    vars = eventIQ.session.laps.pick_driver(sample).pick_fastest().get_car_data().add_distance()
+                    var_list = list(vars)
+                    Lists.DriverVars = Lists.make('DriverVars', var_list)
+                
+                if values['-SLICE-'] == 'Specific Lap':
+                    sample = values['-DRIVER-'][0]
+                    ses = eventIQ.session.laps.pick_driver(sample)
+                    lap_min, lap_max = int(ses['LapNumber'].min()), int(ses['LapNumber'].max())
+                    lap_range = range(lap_min, (lap_max + 1))
+                    Lists.Laps = Lists.make('Laps', (list(lap_range)))
+                    lap_layout = [  [sg.Text('Select Lap Number')], 
+                                    [sg.Spin(Lists.Laps.list, expand_x=True, key='-LAPNUM-')],
+                                    [sg.Button('Ok', expand_x=True)],
+                                ]
+                    lap_win = sg.Window('Lap Selection', lap_layout, keep_on_top=True, modal=True)
+                    while True:
+                        lap_event, lap_value = lap_win.read(timeout=100)
+                        if lap_event == sg.WIN_CLOSED:
+                            lap_win.close()
+                        if lap_event == 'Ok':
+                            global comp_lap_num
+                            comp_lap_num = lap_value['-LAPNUM-']
+                            lap_n = ses[ses['LapNumber'] == int(comp_lap_num)]
+                            lap_n_tel = lap_n.get_car_data().add_distance()
+                            driver_comp = lap_n_tel
+                            var_list = list(driver_comp)
+                            Lists.DriverVars = Lists.make('DriverVars', var_list)
+                            print(f"Getting lap {comp_lap_num} data...\n")
+                            lap_win.close()
+                            break
+
+                else:
+                    sample = values['-DRIVER-'][0]
+                    vars = eventIQ.session.laps.pick_driver(sample)
+                    var_list = list(vars)
+                    Lists.DriverVars = Lists.make('DriverVars', var_list)
+
                 window.Element('-DRIVERXVAR-').update(values=Lists.DriverVars.list)
                 window.Element('-DRIVERYVAR-').update(values=Lists.DriverVars.list)
                 window.Element('-DRIVERXVAR-').update(visible=True)
@@ -355,10 +390,46 @@ def main():
                         plt.show()
 
                     if values['-SLICE-'] == 'Specific Lap':
-                        pass
+                        print(f"[LOG] Plotting variables for multiple drivers lap {comp_lap_num}...")
+                        fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
+                        plot1 = fig.subplots()
+                        for driver_to_compare in Lists.DriversComp.list:
+                            ses = eventIQ.session.laps.pick_driver(driver_to_compare)
+                            info = eventIQ.session.get_driver(driver_to_compare)
+                            team = info['TeamName']
+                            team_color = fastf1.plotting.team_color(team)
+                            lap_n = ses[ses['LapNumber'] == comp_lap_num]
+                            lap_n_tel = lap_n.get_car_data().add_distance()
+                            data = lap_n_tel
+                            plot1.plot(data[values['-DRIVERXVAR-']], data[values['-DRIVERYVAR-']], color=team_color)
+                            plot1.set_xlabel(f"{values['-DRIVERXVAR-']}")
+                            plot1.set_ylabel(f"{values['-DRIVERYVAR-']}")
+                            plot1.set_xlim(data[values['-DRIVERXVAR-']].min(), data[values['-DRIVERXVAR-']].max())
+                            plot1.minorticks_on()
+                            plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
+                            plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
+                            plt.suptitle(f"Lap {comp_lap_num} Comparison \n ")
+                        plt.show()
+                        
 
                     else:
-                        pass
+                        print(f"[LOG] Plotting variables for multiple drivers full session...")
+                        fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
+                        plot1 = fig.subplots()
+                        for driver_to_compare in Lists.DriversComp.list:
+                            data = eventIQ.session.laps.pick_driver(driver_to_compare)
+                            info = eventIQ.session.get_driver(driver_to_compare)
+                            team = info['TeamName']
+                            team_color = fastf1.plotting.team_color(team)
+                            plot1.plot(data[values['-DRIVERXVAR-']], data[values['-DRIVERYVAR-']], color=team_color)
+                            plot1.set_xlabel(f"{values['-DRIVERXVAR-']}")
+                            plot1.set_ylabel(f"{values['-DRIVERYVAR-']}")
+                            plot1.set_xlim(data[values['-DRIVERXVAR-']].min(), data[values['-DRIVERXVAR-']].max())
+                            plot1.minorticks_on()
+                            plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
+                            plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
+                            plt.suptitle(f"Full Session '{values['-SESSION-']}' Lap Comparison \n ")
+                        plt.show()
 
                 else:
                     print(f"[LOG] Plotting variables for {driver.fullname}")
