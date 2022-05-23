@@ -1,2 +1,6 @@
-fastf1>=latest
-PySimpleGUI>=latest
+fastf1
+PySimpleGUI
+datetime
+os
+webbrowser
+pandas
