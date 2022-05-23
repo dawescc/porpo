@@ -1,2 +1,2 @@
-fastf1>=latest
-PySimpleGUI>=latest
+fastf1
+PySimpleGUI
