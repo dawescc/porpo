@@ -317,8 +317,8 @@ def main():
             def LoadDriverComp():
                 if values['-SLICE-'] == 'Fastest':
                     sample = values['-DRIVER-'][0]
-                    vars = eventIQ.session.laps.pick_driver(sample).pick_fastest().get_car_data().add_distance()
-                    var_list = list(vars)
+                    comp_var_list = eventIQ.session.laps.pick_driver(sample).pick_fastest().get_car_data().add_distance()
+                    var_list = list(comp_var_list)
                     Lists.DriverVars = Lists.make('DriverVars', var_list)
                 
                 if values['-SLICE-'] == 'Specific Lap':
@@ -370,6 +370,7 @@ def main():
 
             def Analyse():
                 if values['-COMPARE-'] == True:
+                    
                     if values['-SLICE-'] == 'Fastest':
                         print(f"[LOG] Plotting variables for multiple drivers...")
                         fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
