@@ -390,7 +390,7 @@ def main():
                         plt.show()
 
                     if values['-SLICE-'] == 'Specific Lap':
-                        print(f"[LOG] Plotting variables for multiple drivers spec lap...")
+                        print(f"[LOG] Plotting variables for multiple drivers lap {comp_lap_num}...")
                         fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
                         plot1 = fig.subplots()
                         for driver_to_compare in Lists.DriversComp.list:
@@ -408,7 +408,7 @@ def main():
                             plot1.minorticks_on()
                             plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
                             plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
-                            plt.suptitle(f"Fastest Lap Comparison \n ")
+                            plt.suptitle(f"Lap {comp_lap_num} Comparison \n ")
                         plt.show()
                         
 
@@ -428,7 +428,7 @@ def main():
                             plot1.minorticks_on()
                             plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
                             plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
-                            plt.suptitle(f"Fastest Lap Comparison \n ")
+                            plt.suptitle(f"Full Session '{values['-SESSION-']}' Lap Comparison \n ")
                         plt.show()
 
                 else:
