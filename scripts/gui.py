@@ -339,9 +339,9 @@ def main():
                         print(f"[LOG] Plotting variables for multiple drivers...")
                         fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
                         plot1 = fig.subplots()
-                        for driver in Lists.DriversComp.list:
-                            data = eventIQ.session.laps.pick_driver(driver).pick_fastest().get_car_data().add_distance()
-                            info = eventIQ.session.get_driver(driver)
+                        for driver_to_compare in Lists.DriversComp.list:
+                            data = eventIQ.session.laps.pick_driver(driver_to_compare).pick_fastest().get_car_data().add_distance()
+                            info = eventIQ.session.get_driver(driver_to_compare)
                             team = info['TeamName']
                             team_color = fastf1.plotting.team_color(team)
                             plot1.plot(data[values['-DRIVERXVAR-']], data[values['-DRIVERYVAR-']], color=team_color)
