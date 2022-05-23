@@ -133,6 +133,7 @@ def make_window():
                 [sg.Button('Load Drivers for Session', visible=False, disabled=True, expand_x=True, key='-LOADDRIVERS-')],
                 [sg.Listbox(Lists.Drivers.list, enable_events=True, expand_x=True, size=(None,10), select_mode='single', horizontal_scroll=False, visible=False, pad=(7,7,7,7), key='-DRIVER-')],
                 [sg.Checkbox('Compare drivers?', enable_events=True, visible=False, key='-COMPARE-')],
+                [sg.Text('Only Fastest Lap available to compare', visible=False, text_color='red', key='-COMP WARN-')],
                 [sg.OptionMenu(Lists.SessionSlice.list, default_value=f'Evalutate Full Session?', disabled=True, expand_x=True, visible=False, key='-SLICE-')],
                 [sg.Button('Select Data Points', visible=False, disabled=True, expand_x=True, key='-LOADVARS-')],
                 [sg.OptionMenu(Lists.DriverVars.list, default_value='.Y Variable...', expand_x=True, visible=False, key='-DRIVERYVAR-')],
@@ -253,7 +254,6 @@ def main():
                 window.refresh()
                 window.read(timeout=100)
 
-
             def LoadDriverVars(id):
                 global driver
                 print(f"[LOG] Load variables for {id}")
@@ -314,16 +314,10 @@ def main():
                 window.refresh()
                 window.read(timeout=100)
                 
-            def LoadDriverComp(comp_list):
-                for driver in comp_list:
-                    global data
-                    global team_color
-                    data = eventIQ.session.laps.pick_driver(driver).pick_fastest().get_car_data().add_distance()
-                    info = eventIQ.session.get_driver(driver)
-                    team = info['TeamName']
-                    team_color = fastf1.plotting.team_color(team)
-                
-                var_list = list(data)
+            def LoadDriverComp():
+                sample = values['-DRIVER-'][0]
+                vars = eventIQ.session.laps.pick_driver(sample).pick_fastest().get_car_data().add_distance()
+                var_list = list(vars)
                 Lists.DriverVars = Lists.make('DriverVars', var_list)
                 window.Element('-DRIVERXVAR-').update(values=Lists.DriverVars.list)
                 window.Element('-DRIVERYVAR-').update(values=Lists.DriverVars.list)
@@ -345,14 +339,20 @@ def main():
                     print(f"[LOG] Plotting variables for multiple drivers...")
                     fig = plt.figure(1, figsize=(16,9), constrained_layout=True)
                     plot1 = fig.subplots()
-                    plot1.plot(data[f"{values['-DRIVERXVAR-']}"], data[f"{values['-DRIVERYVAR-']}"], color=team_color)
-                    plot1.set_xlabel('Distance in m')
-                    plot1.set_ylabel('Speed in km/h')
-                    plot1.set_xlim(data['Distance'].min(), data['Distance'].max())
-                    plot1.minorticks_on()
-                    plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
-                    plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
-                    title = f"Fastest Lap Comparison\n"
+                    for driver in Lists.DriversComp.list:
+                        data = eventIQ.session.laps.pick_driver(driver).pick_fastest().get_car_data().add_distance()
+                        info = eventIQ.session.get_driver(driver)
+                        team = info['TeamName']
+                        team_color = fastf1.plotting.team_color(team)
+                        plot1.plot(data[values['-DRIVERXVAR-']], data[values['-DRIVERYVAR-']], color=team_color)
+                        plot1.set_xlabel(f"{values['-DRIVERXVAR-']}")
+                        plot1.set_ylabel(f"{values['-DRIVERYVAR-']}")
+                        plot1.set_xlim(data[values['-DRIVERXVAR-']].min(), data[values['-DRIVERXVAR-']].max())
+                        plot1.minorticks_on()
+                        plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
+                        plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
+                        plt.suptitle(f"Fastest Lap Comparison \n ")
+                    plt.show()
             
                 else:
                     print(f"[LOG] Plotting variables for {driver.fullname}")
@@ -374,9 +374,9 @@ def main():
                     plot1.grid(visible=True, axis='both', which='major', linewidth=0.8, alpha=.5)
                     plot1.grid(visible=True, axis='both', which='minor', linestyle=':', linewidth=0.5, alpha=.5)
                 
-                plt.suptitle(f"{title}")
-                plt.savefig(f"{ExportDir.default}/Plot.png", dpi=300)
-                plt.show()
+                    plt.suptitle(f"{title}")
+                    plt.savefig(f"{ExportDir.default}/Plot.png", dpi=300)
+                    plt.show()
 
 
 ###############################################
@@ -426,9 +426,18 @@ def main():
 
         # Selected Compare Drivers, enable multi select
         elif event == '-COMPARE-':
-            window.Element('-DRIVER-').update(select_mode='multiple')
-            window.refresh()
-            window.read(timeout=100)
+            if values['-COMPARE-'] == True:
+                window.Element('-DRIVER-').update(select_mode='multiple')
+                window.Element('-SLICE-').update(disabled=True)
+                window.Element('-COMP WARN-').update(visible=True)
+                window.refresh()
+                window.read(timeout=100)
+            if values['-COMPARE-'] == False:
+                window.Element('-DRIVER-').update(select_mode='single')
+                window.Element('-SLICE-').update(disabled=True)
+                window.Element('-COMP WARN-').update(visible=False)
+                window.refresh()
+                window.read(timeout=100)
 
         # Load Drivers        
         elif event == '-LOADDRIVERS-':
@@ -440,7 +449,7 @@ def main():
                 ButtonFunc.LoadDriverVars(values['-DRIVER-'][0])
             else:
                 Lists.DriversComp.list = values['-DRIVER-']
-                ButtonFunc.LoadDriverComp(Lists.DriversComp.list)
+                ButtonFunc.LoadDriverComp()
 
         # Confirm All
         elif event == '-CONFIRM ALL-':
