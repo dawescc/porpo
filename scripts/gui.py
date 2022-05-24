@@ -149,12 +149,12 @@ def analyse():
     global year, gp, ses, abb, slice
     global lap_num, xvar, yvar, comp
 
-    year = values['-YEAR-']
-    gp = values['-GP-']
+    year = int(values['-YEAR-'])
+    gp = values['-GP-'][0]
     ses = values['-SESSION-']
     abb = values['-DRIVER-']
     slice = values['-SLICE-']
-    lap_num = values['-LAPNUM-']
+    lap_num = int(values['-LAPNUM-'])
     xvar = values['-DRIVERXVAR-']
     yvar = values['-DRIVERYVAR-']
     comp = values['-COMPARE-']
