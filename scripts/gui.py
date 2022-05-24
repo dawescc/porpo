@@ -27,7 +27,6 @@ class CacheDir:
             os.makedirs(path)
         CacheDir.default = path
 
-fastf1.Cache.enable_cache(CacheDir.default)
 
 class ExportDir:
 
@@ -312,6 +311,8 @@ def main():
             # Load Drivers
             def LoadDriverList():
                 print(f'[LOG] Load Drivers for event...')
+                CacheDir.Set(CacheDir.default)
+                fastf1.Cache.enable_cache(CacheDir.default)
                 global grandprix
                 grandprix = fastf1.get_session(int(values['-YEAR-']), str(values['-GP-']), str(values['-SESSION-']))
                 grandprix.load()
