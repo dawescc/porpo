@@ -77,20 +77,6 @@ class DriverIQ:
         self.team = self.info['TeamName']
         self.team_color = fastf1.plotting.team_color(self.team)
 
-class DriverComp:
-    # Load Driver Data for a List of Drivers
-    def __init__(self, list):
-        self.info = [eventIQ.session.get_driver(id) for id in list]
-        self.ses = eventIQ.session.laps.pick_drivers(list)
-        self.data = None
-        self.name = [n for n in list if not str(n).isdigit()]
-        self.number = [str(n) for n in list if str(n).isdigit()]
-        drv, num = self['Driver'], self['DriverNumber']
-        print([[drv],[num]])
-        #self.fullname = [{self.info[x]['FullName']} for x in self.info]
-        #self.team = [{self.info[x]['TeamName']} for x in self.info]
-        #self.team_color = fastf1.plotting.team_color(self.team)
-
 class Lists:
 
     class make:
