@@ -46,9 +46,6 @@ class ExportDir:
 
 ##############################
 
-import fastf1
-from fastf1 import plotting
-
 class Session:
 
     # Create Session Object
