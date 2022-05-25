@@ -45,11 +45,6 @@ class ExportDir:
 # Analysis Classes
 ###############################################
 
-class Session:
-    def __init__(self, year, gp, ses):
-        self = fastf1.get_session(year, gp, ses)
-        self.load()
-
 class Driver:
     def __init__(self, grandprix, abb):
         self.id = abb
