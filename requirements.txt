@@ -1,6 +1,4 @@
 fastf1
 PySimpleGUI
 datetime
-os
-webbrowser
 pandas
