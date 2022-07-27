@@ -175,11 +175,11 @@ def analyse():
     design_plot(ax)
     set_title(grandprix, driver, yvar, slice, ses, lap_num, comp)
 
-    # Show Plot
-    show_plot()
-    
     # Save Fig
     save_fig()
+
+    # Show Plot
+    show_plot()
 
 ###############################################
 # Make Window Function / Layout
