@@ -16,7 +16,7 @@ fastf1.plotting.setup_mpl(mpl_timedelta_support=True, color_scheme='fastf1', mis
 
 class CacheDir:
 
-    default = '~/Documents/porpo/Cache'
+    default = './data/cache'
 
     def __init__(self, path):
         path = 'path'
@@ -30,7 +30,7 @@ class CacheDir:
 
 class ExportDir:
 
-    default = '~/Documents/porpo/Export'
+    default = './data/export/'
 
     def __init__(self, path):
         path = 'path'
@@ -111,6 +111,7 @@ def compare(grandprix, driver, slice, xvar, yvar, fig, ax):
         plot_ax(driver, data, fig, xvar, yvar, ax)
 
 def set_title(grandprix, driver, yvar, slice, ses, lap_num, comp):
+    global title
     if slice == "Specific Lap":
         analysis = f"Lap {lap_num}, {yvar} \n {grandprix.event.year} {grandprix.event['EventName']}, {ses}"
 
@@ -122,7 +123,6 @@ def set_title(grandprix, driver, yvar, slice, ses, lap_num, comp):
 
     elif comp != True:
         title = f"{driver.bio['FullName']} " + analysis
-
     plt.suptitle(f"{title}")
 
 def design_plot(ax):
@@ -138,6 +138,9 @@ def design_plot(ax):
 
 def show_plot():
     plt.show()
+
+def save_fig():
+    plt.savefig(f"{ExportDir.default}/{title}.png", dpi=300, transparent=True)
 
 def analyse():
     #Inputs
@@ -174,6 +177,9 @@ def analyse():
 
     # Show Plot
     show_plot()
+    
+    # Save Fig
+    save_fig()
 
 ###############################################
 # Make Window Function / Layout
@@ -373,7 +379,7 @@ def main():
             ButtonFunc.Pref_SetCache()
 
         # Set Export Dir
-        elif event == 'Set Cache Directory':
+        elif event == 'Set Export Directory':
             ButtonFunc.Pref_SetExport()
 
         # GitHub

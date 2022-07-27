@@ -5,7 +5,7 @@ import matplotlib.pylab as plt
 # import pandas as pd
 
 # Enable Cache
-fastf1.Cache.enable_cache('venv/F1/Cache/')
+fastf1.Cache.enable_cache('./data/cache')
 
 
 class InputVars:
@@ -84,17 +84,17 @@ def data_plot():
     speed.grid(visible=True, axis='y', alpha=.5)
     plt.suptitle(f"{DriverInfo.fullname} - {SessionInfo.event_name}\n{y.name} Analysis")
 
-    plt.savefig(f"venv/F1/Export/{DriverInfo.fullname} {SessionInfo.event_name} {y.name} Plot.png", dpi=300, transparent=True)
+    plt.savefig(f".data/export/{DriverInfo.fullname} {SessionInfo.event_name} {y.name} Plot.png", dpi=300, transparent=True)
 
     plt.show()
-    print("\nPlot Saved in 'venv/F1/Export/...'\n")
+    print("\nPlot Saved in './data/export/...'\n")
     return fig
 
 def save():
     s = input(f'Do you want to save telemetry data? (Y/N): \n')
     if s == 'Y':
         export = DriverInfo.data
-        export.to_csv(fr"venv/F1/Export//{DriverInfo.fullname} {SessionInfo.event_name} Data.csv")
+        export.to_csv(fr".data/export/{DriverInfo.fullname} {SessionInfo.event_name} Data.csv")
         print("Data Saved.\n")
     if s == 'N':
         print("Nothing saved.\n")
