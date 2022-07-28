@@ -30,7 +30,7 @@ class CacheDir:
 
 class ExportDir:
 
-    default = './data/export/'
+    default = './data/export'
 
     def __init__(self, path):
         path = 'path'
@@ -140,6 +140,7 @@ def show_plot():
     plt.show()
 
 def save_fig():
+    ExportDir.Set(ExportDir.default)
     plt.savefig(f"{ExportDir.default}/{title}.png", dpi=300, transparent=True)
 
 def analyse():
@@ -255,16 +256,6 @@ def main():
                 while True:
                     if event == 'OK' or sg.WIN_CLOSED:
                         pref_win.close()
-
-                    elif event == 'Set Cache':
-                        path = sg.popup_get_folder('Choose your CACHE directory', no_window=True, default_path=f'{CacheDir.default}')
-                        CacheDir.Set(path)
-                        print(f"Set CACHE to {path}")
-
-                    elif event == 'Set Export':
-                        path = sg.popup_get_folder('Choose your EXPORT directory', no_window=True, default_path=f'{ExportDir.default}')
-                        ExportDir.Set(path)
-                        print(f"Set EXPORT to {path}")
 
             #Set Cache Directory
             def Pref_SetCache():
