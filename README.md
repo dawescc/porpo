@@ -1,10 +1,13 @@
 # Porpo
 
+We are currently allocating resources to Porpo for the 2023 Formula 1 season.
+
 ## Table of Contents
 - [Porpo](#porpo)
   - [Table of Contents](#table-of-contents)
-  - [General Information](#general-information)
-  - [Getting Started](#getting-started)
+    - [General Information](#general-information)
+    - [Meet porpo, a data collection and visualization tool.](#meet-porpo-a-data-collection-and-visualization-tool)
+    - [Getting Started](#getting-started)
   - [Usage](#usage)
   - [Exporting the Plot](#exporting-the-plot)
     - [Specific Lap](#specific-lap)
