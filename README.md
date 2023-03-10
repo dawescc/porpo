@@ -1,6 +1,14 @@
 # Porpo
 
-We are currently allocating resources to Porpo for the 2023 Formula 1 season.
+The 2023 Formula 1 season is live! Download Porpo and take a look at just how well your most (or least) favorite driver / team did on track!
+
+### Issues?
+
+Submit an issue, with a screenshot of the error, and I will get to work.
+
+### Want to contribute?
+
+Contributions are welcome! Be sure to use proper documentation when submitting a PR.
 
 ## Table of Contents
 - [Porpo](#porpo)
