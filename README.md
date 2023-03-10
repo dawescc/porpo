@@ -54,43 +54,23 @@ Contributions are welcome! Be sure to use proper documentation when submitting a
 ------
 
 </br>
-porpo is an application that utilizes the [FastF1](https://github.com/theOehrly/Fast-F1) package and is designed to easily pull telemetry data and create beautiful visualizations for analysis. It allows you to look through historic and current race data, make comparisons across specific laps, fastest laps, or full sessions. Soon, it will let you visualize the track as a map, allowing you to more clearly see where on track an event took place.
+Porpo is an application that is designed to easily pull telemetry data and create beautiful visualizations for analysis. It allows you to look through historic and current race data, make comparisons across specific laps, fastest laps, or full sessions. Soon, it will let you visualize the track as a map, allowing you to more clearly see where on track an event took place.
 </br>
 </br>
-*Note*: [Python3](https://www.python.org/downloads/) (v.3.8 or greater) is required.
+<i>Note</i>: Python3 is required.
 </br>
 </br>
 
 **What does porpo mean?**
 
-'porpo' is a shortened form of the word 'porpoise'. In short, in the context of Formula 1, when a car is going "too fast", it creates so much downforce that it slams into the ground and bounces back up, only to get sucked right back down to the ground. The violent up and down movement is referred to as 'porpoising'. This same movement applies to the end point on a graph as the X value increases, and so - ***porpo***. 
+'porpo' is a shortened form of the word 'porpoise'. An it sounds cool to say over and over again. 
 </br>
 
 ### Getting Started
 
-For simplicity, I *highly* recommend simply downloading [Visual Code Studio](https://code.visualstudio.com/Download) and installing Python plugin and the necessary packages listed on in the `requirements.txt` file *(only the top 2 need to be downloaded, the rest come with the Python plugin)*.
-
-After you do that, download the [porpo](https://github.com/dtech-auto/porpo/releases/tag/v1.2.2-beta.stable) source code `.zip`. Extract the contents wherever you want, but keep in mind that is your working directory, so something like `/Documents` would be better than your Desktop.
-
-Now, open Visual Studio Code, and open a the folder you just extracted.
-
-Visual Studio Code should build out the file hierarchy on the left side, if something else happens, take a screenshot and let me know, we will figure it out.
-
-If you have: 
-
-1. Downloaded Visual Studio Code
-2. Installed the Python plugin and any required packages in `requirements.txt`
-3. Downloaded and extracted the source files `.zip`
-4. Properly opened the directory
-
-You should be good to go. 
-All you need to do now is hit the play button in the top right of your screen and the app should start.
-</br>
-</br>
-*Note:* Because the app downloads and filters large chunks of data to cache on the first use, the app actually gets faster the more you use it. Expect some wait times when first loading a Grand Prix.
+After you do that, download the [porpo](https://github.com/dtech-auto/porpo/releases/tag/) source code `.zip`. Extract the contents wherever you want, but keep in mind that is your working directory, so something like `/Documents` would be better than your Desktop.
 
 ## Usage
-
 
 **Porpo allows you to individually set all the variables for evaluation.** 
 
