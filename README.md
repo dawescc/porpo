@@ -1,6 +1,13 @@
+> [!IMPORTANT]  
+> Some dependencies have transitioned to a payment model. Software may not work as expected.
+
+> [!NOTE]
+> Because some critical dependencies now require payment, this repository has been archived. Thank you for your support!
+-----
+
 # Porpo
 
-The 2023 Formula 1 season is live! Download Porpo and take a look at just how well your most (or least) favorite driver / team did on track!
+The 2024 Formula 1 season is live! Download Porpo and take a look at just how well your most (or least) favorite driver / team did on track!
 
 ### Issues?
 
